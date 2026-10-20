@@ -42,6 +42,8 @@ body { min-width: 320px; background: var(--icf-sand); }
 .status-badge { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .6rem; color: #087b68; font-size: .73rem; font-weight: 800; background: #e4f7f1; border-radius: 999px; }
 .feature-icon { display: grid; width: 2.75rem; height: 2.75rem; color: var(--icf-blue); font-size: 1.25rem; place-items: center; background: var(--icf-sky); border-radius: .8rem; }
 .app-footer { padding: 1.5rem clamp(1.25rem,4vw,4rem); color: var(--icf-muted); font-size: .82rem; background: #fff; border-top: 1px solid var(--icf-border); }
+.auth-card { width: min(100%, 30rem); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 3rem auto; }
+.form-control:focus { border-color: var(--icf-blue); box-shadow: 0 0 0 .25rem rgba(44,107,237,.14); }
 
 @media (max-width: 991.98px) { .app-shell { display: block; } .app-sidebar { position: fixed; top: 4.75rem; left: 0; z-index: 1025; width: min(17rem,86vw); transform: translateX(-105%); transition: transform .2s ease; box-shadow: 14px 0 36px rgba(7,20,42,.2); } .app-sidebar.is-open { transform: translateX(0); } }
 @media (max-width: 575.98px) { .page-container { padding-top: 1.5rem; } .hero-title { font-size: 2.55rem; } .preview-window { padding: .8rem; } }

@@ -11,7 +11,15 @@
         <header class="app-topbar d-flex align-items-center px-3 px-lg-4">
             <button class="btn btn-light border d-lg-none me-2" type="button" data-shell-toggle aria-label="Toggle navigation">☰</button>
             <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ route('landing') }}"><span class="brand-mark">ICF</span><span class="brand-name">ICF Investment</span></a>
-            <div class="ms-auto d-flex align-items-center gap-2"><span class="d-none d-sm-inline small text-secondary">Portfolio prototype</span><a class="btn btn-sm btn-icf-secondary" href="#experience">Explore</a></div>
+            <div class="ms-auto d-flex align-items-center gap-2">
+                <span class="d-none d-sm-inline small text-secondary">Portfolio prototype</span>
+                @auth
+                    <a class="btn btn-sm btn-icf-secondary" href="{{ route('profile.edit') }}">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">@csrf <button class="btn btn-sm btn-icf-primary" type="submit">Log out</button></form>
+                @else
+                    <a class="btn btn-sm btn-icf-primary" href="{{ route('login') }}">Log in</a>
+                @endauth
+            </div>
         </header>
         <div class="app-shell">
             <aside class="app-sidebar" data-sidebar>
