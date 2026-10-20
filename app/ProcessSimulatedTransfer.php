@@ -25,13 +25,13 @@ class ProcessSimulatedTransfer
                 return $existing;
             }
             if (bccomp($account->balance, $data['amount'], 2) < 0) {
-                throw new DomainException('Your demo account has insufficient funds.');
+                throw new DomainException('Your account has insufficient available funds.');
             }
-            $clearing = Account::query()->where('account_reference', 'ICF-DEMO-CLEARING')->lockForUpdate()->firstOrFail();
+            $clearing = Account::query()->where('account_reference', 'ICF-CLEARING')->lockForUpdate()->firstOrFail();
             $reference = 'TRF-'.Str::upper(Str::random(12));
             $transfer = Transfer::query()->create(['sending_account_id' => $account->id, 'beneficiary_id' => $beneficiary->id, 'reference' => $reference, 'idempotency_key' => $data['idempotency_key'], 'amount' => $data['amount'], 'currency' => $account->currency, 'status' => 'completed', 'user_reference' => $data['reference'], 'completed_at' => now(), 'metadata' => ['demo' => true]]);
-            LedgerEntry::query()->create(['account_id' => $account->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-D", 'entry_type' => 'debit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'DEMO/SIMULATED transfer to '.$beneficiary->display_name, 'occurred_at' => now()]);
-            LedgerEntry::query()->create(['account_id' => $clearing->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-C", 'entry_type' => 'credit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'DEMO/SIMULATED clearing entry', 'occurred_at' => now()]);
+            LedgerEntry::query()->create(['account_id' => $account->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-D", 'entry_type' => 'debit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'Transfer to '.$beneficiary->display_name, 'occurred_at' => now()]);
+            LedgerEntry::query()->create(['account_id' => $clearing->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-C", 'entry_type' => 'credit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'Settlement entry', 'occurred_at' => now()]);
             $account->update(['balance' => bcsub($account->balance, $data['amount'], 2)]);
             $clearing->update(['balance' => bcadd($clearing->balance, $data['amount'], 2)]);
             AuditLog::query()->create(['actor_user_id' => $user->id, 'action' => 'transfer.completed', 'target_type' => 'transfer', 'target_id' => $transfer->id, 'metadata' => ['reference' => $reference, 'demo' => true], 'occurred_at' => now()]);
