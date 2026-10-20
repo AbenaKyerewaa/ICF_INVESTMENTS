@@ -11,6 +11,7 @@
 
 - [Phase 1 environment verification](docs/phase-01-environment.md)
 - [Phase 2 product scope and acceptance criteria](docs/phase-02-scope.md)
+- [Phase 3 design system](docs/phase-03-design-system.md)
 
 ## About Laravel
 
