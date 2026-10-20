@@ -8,7 +8,6 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
-        <div class="demo-strip py-2 px-3">DEMO / SIMULATED — No real money, banking credentials, or payment rails are used.</div>
         <header class="app-topbar d-flex align-items-center px-3 px-lg-4">
             <button class="btn btn-light border d-lg-none me-2" type="button" data-shell-toggle aria-label="Toggle navigation">☰</button>
             <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ route('landing') }}"><span class="brand-mark">ICF</span><span class="brand-name">ICF Investment</span></a>
