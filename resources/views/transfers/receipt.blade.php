@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<div class="page-container"><div class="surface-card p-4"><span class="eyebrow">Transfer receipt · DEMO/SIMULATED</span><h1 class="h3 mt-3">Transfer completed</h1><p><strong>Reference:</strong> {{ $transfer->reference }}</p><p><strong>Amount:</strong> ${{ number_format($transfer->amount,2) }} {{ $transfer->currency }}</p><p><strong>Recipient:</strong> {{ $transfer->beneficiary->display_name }}</p><a class="btn btn-icf-primary" href="{{ route('documents.receipt',$transfer) }}">Download PDF receipt</a></div></div>@endsection

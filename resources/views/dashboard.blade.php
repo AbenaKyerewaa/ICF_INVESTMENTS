@@ -1,10 +1,2 @@
 @extends('layouts.app')
-
-@section('content')
-    <div class="page-container">
-        <span class="eyebrow">Authenticated demo area</span>
-        <h1 class="h2 fw-bold mt-3" style="color: var(--icf-navy);">Welcome, {{ auth()->user()->name }}.</h1>
-        <p class="text-secondary">Your account dashboard will be connected to the reconciled demo ledger in Phase 9.</p>
-        <div class="surface-card p-4 mt-4"><p class="mb-1 fw-bold">Access confirmed</p><p class="mb-0 text-secondary">This route is protected by Laravel authentication and active-account middleware.</p></div>
-    </div>
-@endsection
+@section('content')<div class="page-container"><span class="eyebrow">Account overview</span><div class="d-flex justify-content-between align-items-end mt-3"><div><h1 class="h2 fw-bold">Welcome, {{ auth()->user()->name }}</h1><p class="text-secondary">Your DEMO/SIMULATED account activity.</p></div>@if($account)<a class="btn btn-icf-primary" href="{{ route('transfers.create') }}">New transfer</a>@endif</div>@if($account)<div class="row g-4 mt-1"><div class="col-lg-7"><div class="preview-card"><p class="text-white-50 mb-1">Available balance</p><h2 class="display-6">${{ number_format($account->balance,2) }}</h2><a class="text-white" href="{{ route('accounts.show',$account) }}">View account activity →</a></div></div><div class="col-lg-5"><div class="surface-card p-4 h-100"><p class="fw-bold">Quick actions</p><div class="d-grid gap-2"><a class="btn btn-icf-secondary" href="{{ route('beneficiaries.index') }}">Manage beneficiaries</a><a class="btn btn-icf-secondary" href="{{ route('accounts.show',$account) }}">Statements & history</a></div></div></div></div><div class="surface-card p-4 mt-4"><h2 class="h5">Recent activity</h2>@forelse($recentEntries as $entry)<div class="d-flex justify-content-between border-top py-3"><span>{{ $entry->description }}</span><strong class="{{ $entry->entry_type==='credit'?'text-success':'text-danger' }}">{{ $entry->entry_type==='credit'?'+':'-' }}${{ number_format($entry->amount,2) }}</strong></div>@empty<p class="text-secondary">No activity yet.</p>@endforelse</div>@else<div class="surface-card p-4 mt-4"><h2 class="h5">No demo account assigned</h2><p class="text-secondary mb-0">An administrator can assign a fictional account before activity becomes available.</p></div>@endif</div>@endsection

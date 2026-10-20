@@ -1,0 +1,1 @@
+<h1>ICF Investment — DEMO/SIMULATED Receipt</h1><p>Reference: {{ $transfer->reference }}</p><p>Amount: ${{ number_format($transfer->amount,2) }} {{ $transfer->currency }}</p><p>Recipient: {{ $transfer->beneficiary->display_name }}</p><p>Completed: {{ $transfer->completed_at?->format('M j, Y H:i') }}</p>

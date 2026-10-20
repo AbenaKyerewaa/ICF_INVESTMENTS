@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             ['account_reference' => 'ICF-DEMO-4821'],
             ['user_id' => $customer->id, 'name' => 'Primary Demo Account', 'currency' => 'USD', 'balance' => '1000000.00', 'status' => 'active', 'opened_at' => now()->subYear()],
         );
+        Account::query()->updateOrCreate(['account_reference' => 'ICF-DEMO-CLEARING'], ['user_id' => $administrator->id, 'name' => 'Demo Clearing Account', 'currency' => 'USD', 'balance' => '0.00', 'status' => 'active', 'opened_at' => now()->subYear()]);
 
         $beneficiaries = collect([
             ['display_name' => 'Northstar Demo Services', 'account_identifier' => 'DEMO-NS-1001', 'institution_name' => 'Demo Clearing House'],
