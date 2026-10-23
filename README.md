@@ -1,65 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ICF Investment Dashboard
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **⚠ Simulation Notice — This is a portfolio demonstration.**  
+> ICF Investment Dashboard is a **non-functional, simulated** investment/banking-style web application.  
+> It does **not** accept real deposits, execute real payments, connect to any bank rails, or handle real financial credentials. All balances, transactions, and account data are entirely fictional and generated solely for demonstration purposes.
 
-## ICF Investment planning
+---
 
-- [Phase 1 environment verification](docs/phase-01-environment.md)
-- [Phase 2 product scope and acceptance criteria](docs/phase-02-scope.md)
-- [Phase 3 design system](docs/phase-03-design-system.md)
-- [Phases 5–8 data and authentication foundation](docs/phase-05-to-08-foundation.md)
+## Purpose
 
-## About Laravel
+A polished full-stack Laravel portfolio project that demonstrates:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Authenticated multi-role user experience (customer + admin)
+- Double-entry ledger accounting with balance reconciliation
+- Simulated fund transfer workflow with idempotency protection
+- PDF receipt and account statement generation
+- Interactive Chart.js analytics sourced from server-side aggregates
+- Paginated admin dashboard with audit log viewer
+- Role-based access control enforced server-side
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technology Stack
 
-## Learning Laravel
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 13 / PHP 8.3 |
+| Database | MySQL (via Laragon) / SQLite (for tests) |
+| Frontend | Blade templates, Bootstrap 5, Vanilla CSS |
+| Charts | Chart.js (loaded via CDN) |
+| PDF | barryvdh/laravel-dompdf |
+| Assets | Vite + npm |
+| Auth | Custom session-based authentication (bcrypt) |
+| Testing | PHPUnit 12 |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Features
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- **Dashboard** — Balance card, Chart.js credit/debit timeline, cashflow breakdown, recent ledger entries, date-range filtering (30D / 90D / 6M / 12M / custom)
+- **Account detail** — Full paginated ledger history with search, type/status filters, running balance reconciliation
+- **Simulated transfers** — Two-step preview → confirm flow with server-side balance validation, idempotency key, and failure rollback
+- **Beneficiary management** — Add, edit, deactivate saved recipients; history preserved on deactivation
+- **Documents** — Downloadable PDF account statements (date-range) and transfer receipts
+- **Notifications** — Per-user alerts for transfer events; mark-as-read and delete
+- **Profile** — Name/email update, password change with rate limiting
+- **Admin dashboard** — User summary, account overview, recent audit events
+- **User management** — Search, enable/disable users and accounts (with self-disable guard)
+- **Audit logs** — Append-only records for login failures, profile changes, transfers, admin actions; paginated and filterable
+- **Security** — CSRF protection, ownership guards on every route, rate-limited endpoints, session hardening
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Prerequisites
+
+- PHP 8.3+
+- Composer
+- Node.js / npm
+- MySQL (Laragon recommended on Windows) **or** SQLite (zero-config for local dev)
+- Git
+
+---
+
+## Local Setup
+
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/your-username/ICF_INVESTMENTS.git
+cd ICF_INVESTMENTS
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependencies
 
-## Contributing
+```bash
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Configure environment
 
-## Code of Conduct
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Open `.env` and set your database credentials:
 
-## Security Vulnerabilities
+```ini
+# For MySQL (Laragon default):
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=icf_investments
+DB_USERNAME=root
+DB_PASSWORD=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Or keep DB_CONNECTION=sqlite for a zero-config local database
+```
+
+### 4. Run migrations and seed demo data
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+### 5. Build frontend assets
+
+```bash
+npm run build
+```
+
+### 6. Start the development server
+
+```bash
+php artisan serve
+```
+
+Visit **http://localhost:8000** in your browser.
+
+---
+
+## One-command Setup (using the composer script)
+
+```bash
+composer run setup
+```
+
+This runs `composer install`, copies `.env.example`, generates `APP_KEY`, runs migrations, installs npm packages, and builds assets in one step.
+
+---
+
+## Demo Credentials
+
+> These credentials are for the pre-seeded demo data only. Do **not** use real passwords here.
+
+| Role | Email | Password |
+|---|---|---|
+| Customer | maya.bennett@icf-investment.demo | password |
+| Administrator | admin@icf.test | password |
+
+---
+
+## Running Tests
+
+```bash
+php artisan test
+```
+
+Or run a specific file:
+
+```bash
+php artisan test tests/Feature/BalanceReconciliationTest.php
+```
+
+The test suite covers:
+
+- Authentication and authorization flows
+- Balance reconciliation (credits − debits = stored balance)
+- Simulated transfer workflow including idempotency and insufficient-funds rejection
+- Beneficiary management CRUD and ownership enforcement
+- PDF document download authorization
+- Admin tools and audit log creation
+- Security hardening (role escalation, rate limiting, cross-user data access)
+- Charts and notifications isolation
+
+---
+
+## Project Structure (key paths)
+
+```
+app/
+  Http/Controllers/       — Route handlers
+  Http/Requests/          — Form request validation
+  Models/                 — Eloquent models
+  Services/               — AccountAnalyticsService
+  ProcessSimulatedTransfer.php  — Core transfer + ledger logic
+database/
+  migrations/             — Schema history
+  seeders/                — Demo data
+resources/views/          — Blade templates
+routes/web.php            — All application routes
+tests/Feature/            — PHPUnit feature tests
+```
+
+---
+
+## Deployment Notes (Phase 18)
+
+Before deploying to a production-equivalent host:
+
+1. Set `APP_ENV=production` and `APP_DEBUG=false` in your production `.env`
+2. Generate a fresh `APP_KEY` — never reuse a local key in production
+3. Set all `DB_*` values to the hosted database credentials
+4. Enable HTTPS and set `SESSION_SECURE_COOKIE=true`
+5. Run `npm run build` and commit the compiled assets, **or** build on the server
+6. Run `php artisan migrate --force` during deployment
+7. Run `php artisan config:cache` and `php artisan route:cache` for performance
+8. Use a least-privilege database user (SELECT, INSERT, UPDATE, DELETE only — no DROP)
+9. Verify `storage/` and `bootstrap/cache/` are writable by the web server process
+10. Test login, dashboard, transfer, PDF download, and admin routes on the hosted URL
+
+See the [deployment checklist](docs/phase-18-deployment-checklist.md) for the full release checklist.
+
+---
+
+## Simulation Boundary
+
+This project is a **portfolio demonstration**. It:
+
+- ✅ Simulates investment account activity with fictional data
+- ✅ Demonstrates full-stack Laravel patterns and security practices
+- ❌ Does **not** connect to any payment processor, bank API, or financial network
+- ❌ Does **not** accept or hold real money
+- ❌ Is **not** a licensed financial institution or regulated product
+
+A production financial product would require specialist legal, regulatory, security, and provider review well beyond the scope of this portfolio project.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This portfolio project is released under the [MIT License](https://opensource.org/licenses/MIT).
