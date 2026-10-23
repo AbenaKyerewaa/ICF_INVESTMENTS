@@ -4,8 +4,8 @@
 <div class="page-container">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
         <div>
-            <span class="eyebrow" style="background: #fff3e0; color: #b78103;">✦ Administration</span>
-            <h1 class="h2 fw-bold mt-2 mb-1">User & Account Management</h1>
+            <span class="eyebrow eyebrow-gold">✦ Administration</span>
+            <h1 class="h2 fw-bold mt-2 mb-1" style="color: var(--icf-navy);">User &amp; Account Management</h1>
             <p class="text-secondary mb-0">Inspect client accounts, manage access states, and toggle active status.</p>
         </div>
         <a class="btn btn-sm btn-icf-secondary" href="{{ route('admin.dashboard') }}">← Back to Admin Console</a>

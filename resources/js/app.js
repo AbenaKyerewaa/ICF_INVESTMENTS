@@ -25,22 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Credits (Inflow)',
                         data: data.credits,
-                        borderColor: '#16a085',
-                        backgroundColor: 'rgba(22, 160, 133, 0.12)',
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.08)',
                         tension: 0.35,
                         fill: true,
-                        borderWidth: 2.5,
+                        borderWidth: 2,
                         pointRadius: 3,
+                        pointBackgroundColor: '#10b981',
                     },
                     {
                         label: 'Debits (Outflow)',
                         data: data.debits,
-                        borderColor: '#dc3545',
-                        backgroundColor: 'rgba(220, 53, 69, 0.06)',
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.05)',
                         tension: 0.35,
                         fill: true,
-                        borderWidth: 2.5,
+                        borderWidth: 2,
                         pointRadius: 3,
+                        pointBackgroundColor: '#ef4444',
                     }
                 ]
             },
@@ -108,14 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Total Inflow',
                         data: data.credits,
-                        backgroundColor: '#16a085',
-                        borderRadius: 4,
+                        backgroundColor: '#10b981',
+                        borderRadius: 6,
                     },
                     {
                         label: 'Total Outflow',
                         data: data.debits,
-                        backgroundColor: '#e65100',
-                        borderRadius: 4,
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6,
                     }
                 ]
             },

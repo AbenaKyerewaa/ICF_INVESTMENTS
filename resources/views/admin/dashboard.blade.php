@@ -4,8 +4,8 @@
 <div class="page-container">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
         <div>
-            <span class="eyebrow" style="background: #fff3e0; color: #b78103;">✦ Administrative Console</span>
-            <h1 class="h2 fw-bold mt-2 mb-1">System Overview</h1>
+            <span class="eyebrow eyebrow-gold">✦ Administrative Console</span>
+            <h1 class="h2 fw-bold mt-2 mb-1" style="color: var(--icf-navy);">System Overview</h1>
             <p class="text-secondary mb-0">Authorized administration tools, user management, and event audit trails.</p>
         </div>
         <div class="d-flex gap-2">
@@ -47,6 +47,24 @@
                 <span class="metric-label">Completed Transfers</span>
                 <div class="metric-value my-1">{{ $totalTransfers }}</div>
                 <div class="small text-secondary">${{ number_format((float) $totalTransferredVolume, 2) }} total volume</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Master Login OTP Card for Admin -->
+    <div class="surface-card p-4 mb-4" style="background: linear-gradient(135deg, #070f1e 0%, #0d1b33 100%); color: #fff; border-color: rgba(201, 168, 76, 0.35); box-shadow: var(--shadow-lg);">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <span class="eyebrow eyebrow-gold mb-2">Master Authentication Gate</span>
+                <h2 class="h5 fw-bold text-white mb-1">System Master Login OTP</h2>
+                <p class="text-white-50 small mb-0">This is the constant security code required for all clients and administrators to open their accounts after entering credentials.</p>
+            </div>
+            <div class="d-flex align-items-center gap-3 p-3 rounded-3 border" style="background: rgba(18, 32, 64, 0.85); border-color: rgba(255,255,255,0.15) !important;">
+                <div class="text-end">
+                    <div class="small text-white-50" style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;">Constant Access OTP</div>
+                    <div class="font-monospace fw-bold fs-3 mb-0" style="color: var(--icf-gold); letter-spacing: 0.25em;">{{ $loginOtp }}</div>
+                </div>
+                <span class="badge-status badge-active flex-shrink-0" style="background: rgba(34, 197, 94, 0.2); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3);">Active Key</span>
             </div>
         </div>
     </div>
@@ -104,9 +122,9 @@
         </div>
     </div>
 
-    <div class="alert alert-light border mt-4 small text-secondary d-flex align-items-center gap-2">
-        <span>🛡</span>
-        <span><strong>Admin Security Note:</strong> Administrative operations are strictly restricted to users with the administrator role. All status changes, authentication attempts, and operations produce permanent append-only audit log entries with safe metadata.</span>
+    <div class="p-3 bg-light rounded-3 border mt-4 small text-secondary d-flex align-items-center gap-2">
+        <svg width="18" height="18" fill="none" stroke="var(--icf-blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span><strong>Admin Security Note:</strong> Administrative operations are strictly restricted to authorized administrator roles. All status changes, authentication attempts, and operations produce permanent append-only audit log entries with safe metadata.</span>
     </div>
 </div>
 @endsection

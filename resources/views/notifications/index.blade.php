@@ -4,8 +4,8 @@
 <div class="page-container">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
         <div>
-            <span class="eyebrow">✦ Account alerts & updates</span>
-            <h1 class="h2 fw-bold mt-2 mb-1">Notifications</h1>
+            <span class="eyebrow eyebrow-gold">✦ Activity Alerts</span>
+            <h1 class="h2 fw-bold mt-2 mb-1" style="color: var(--icf-navy);">Notifications</h1>
             <p class="text-secondary mb-0">Real-time transfer updates, statements, and account security events.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
@@ -36,15 +36,15 @@
     <div class="surface-card p-0 overflow-hidden">
         @forelse($notifications as $notification)
             <div class="p-4 border-bottom d-flex align-items-start gap-3 {{ $notification->read_at ? '' : 'bg-light' }}">
-                <div class="feature-icon flex-shrink-0" style="width: 2.5rem; height: 2.5rem; font-size: 1rem; {{ str_contains($notification->type, 'failed') ? 'background: #ffebee; color: #c62828;' : (str_contains($notification->type, 'security') ? 'background: #fff3e0; color: #e65100;' : '') }}">
+                <div class="feature-icon flex-shrink-0" style="width: 2.5rem; height: 2.5rem;">
                     @if(str_contains($notification->type, 'failed'))
-                        ✕
+                        <svg width="16" height="16" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     @elseif(str_contains($notification->type, 'transfer'))
-                        ⇄
+                        <svg width="16" height="16" fill="none" stroke="var(--icf-blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     @elseif(str_contains($notification->type, 'security'))
-                        ⚿
+                        <svg width="16" height="16" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     @else
-                        ✦
+                        <svg width="16" height="16" fill="none" stroke="var(--icf-blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                     @endif
                 </div>
                 <div class="flex-grow-1 min-w-0">
@@ -84,7 +84,9 @@
             </div>
         @empty
             <div class="text-center py-5">
-                <div class="feature-icon mx-auto mb-3" style="width: 3.5rem; height: 3.5rem; font-size: 1.5rem;">✓</div>
+                <div class="feature-icon mx-auto mb-3" style="width: 3.5rem; height: 3.5rem;">
+                    <svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
                 <h2 class="h5 fw-bold">All caught up!</h2>
                 <p class="text-secondary small mb-0">You have no {{ $status === 'unread' ? 'unread' : '' }} notifications at this time.</p>
             </div>

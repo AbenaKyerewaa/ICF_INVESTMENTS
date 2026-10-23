@@ -114,4 +114,16 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Constant Login Master OTP
+    |--------------------------------------------------------------------------
+    |
+    | A constant security verification code required for all logins before
+    | opening the account. The administrator can view this key in the console.
+    |
+    */
+
+    'login_otp' => env('LOGIN_OTP_CODE', '847291'),
+
 ];

@@ -43,6 +43,8 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        $loginOtp = (string) config('auth.login_otp', '847291');
+
         return view('admin.dashboard', compact(
             'totalUsers',
             'activeUsers',
@@ -53,7 +55,8 @@ class DashboardController extends Controller
             'totalTransfers',
             'totalTransferredVolume',
             'recentAuditLogs',
-            'recentUsers'
+            'recentUsers',
+            'loginOtp'
         ));
     }
 }

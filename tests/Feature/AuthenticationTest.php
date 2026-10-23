@@ -16,15 +16,61 @@ class AuthenticationTest extends TestCase
         $this->get(route('dashboard'))->assertRedirect(route('login'));
     }
 
-    public function test_an_active_user_can_sign_in_and_reach_the_dashboard(): void
+    public function test_an_active_user_must_enter_constant_otp_after_credentials_to_reach_dashboard(): void
     {
         $user = User::factory()->create();
 
+        // Step 1: Submit email & password -> redirected to OTP challenge page
         $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('login.otp'));
+
+        $this->assertGuest();
+
+        // Step 2: Access OTP page
+        $this->get(route('login.otp'))
+            ->assertOk()
+            ->assertSee($user->email)
+            ->assertSee('Security Access Key');
+
+        // Step 3: Submit valid constant OTP -> authenticated and redirected to dashboard
+        $this->post(route('login.otp.verify'), ['otp' => (string) config('auth.login_otp', '847291')])
             ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticatedAs($user);
         $this->get(route('dashboard'))->assertOk()->assertSee($user->name);
+    }
+
+    public function test_user_cannot_authenticate_with_invalid_otp(): void
+    {
+        $user = User::factory()->create();
+
+        // Step 1: Valid credentials
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('login.otp'));
+
+        // Step 2: Incorrect OTP
+        $this->post(route('login.otp.verify'), ['otp' => '000000'])
+            ->assertSessionHasErrors(['otp']);
+
+        $this->assertGuest();
+    }
+
+    public function test_user_cannot_access_otp_page_without_pending_login(): void
+    {
+        $this->get(route('login.otp'))->assertRedirect(route('login'));
+    }
+
+    public function test_user_can_cancel_otp_and_return_to_login(): void
+    {
+        $user = User::factory()->create();
+
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+            ->assertRedirect(route('login.otp'));
+
+        $this->post(route('login.otp.cancel'))
+            ->assertRedirect(route('login'));
+
+        $this->get(route('login.otp'))->assertRedirect(route('login'));
     }
 
     public function test_an_inactive_user_cannot_sign_in(): void

@@ -11,7 +11,8 @@ class LandingPageTest extends TestCase
         $response = $this->get(route('landing'));
 
         $response->assertOk();
-        $response->assertSee('ICF Investment');
+        $response->assertSee('International Capital &amp; Finance Investments Bank', false);
+        $response->assertSee('Building Wealth, Securing Futures');
         $response->assertSee('Modern financial workspace');
     }
 }

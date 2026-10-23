@@ -21,6 +21,12 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('login.store');
+
+    Route::get('/login/otp', [AuthenticatedSessionController::class, 'showOtp'])->name('login.otp');
+    Route::post('/login/otp', [AuthenticatedSessionController::class, 'verifyOtp'])
+        ->middleware('throttle:10,1')
+        ->name('login.otp.verify');
+    Route::post('/login/otp/cancel', [AuthenticatedSessionController::class, 'cancelOtp'])->name('login.otp.cancel');
 });
 
 Route::middleware(['auth', 'active'])->group(function (): void {
