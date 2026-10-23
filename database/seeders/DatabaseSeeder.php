@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $customer = User::query()->updateOrCreate(
-            ['email' => 'maya.bennett@icf.test'],
+            ['email' => 'maya.bennett@icf-investment.demo'],
             ['name' => 'Maya Bennett', 'password' => 'password', 'role' => 'customer', 'status' => 'active', 'email_verified_at' => now()],
         );
 

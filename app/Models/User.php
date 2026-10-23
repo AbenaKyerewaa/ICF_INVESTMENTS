@@ -50,4 +50,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuditLog::class, 'actor_user_id');
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'administrator';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    public function unreadNotificationsCount(): int
+    {
+        return $this->notifications()->whereNull('read_at')->count();
+    }
 }

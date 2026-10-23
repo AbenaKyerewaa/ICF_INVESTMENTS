@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PreviewTransferRequest;
+use App\Models\AccountNotification;
+use App\Models\AuditLog;
 use App\Models\Transfer;
 use App\ProcessSimulatedTransfer;
 use DomainException;
@@ -45,16 +47,45 @@ class TransferController extends Controller
         } try {
             $transfer = $processor->handle($request->user(), $data);
         } catch (DomainException $exception) {
-            return redirect()->route('transfers.create')->with('error', $exception->getMessage());
-        } $request->session()->forget('transfer.preview');
+            AccountNotification::query()->create([
+                'user_id' => $request->user()->id,
+                'type' => 'transfer.failed',
+                'title' => 'Transfer Failed',
+                'message' => $exception->getMessage(),
+                'data' => [
+                    'account_id' => $data['account_id'] ?? null,
+                    'amount' => $data['amount'] ?? null,
+                    'reason' => $exception->getMessage(),
+                    'demo' => true,
+                ],
+            ]);
 
-        return redirect()->route('transfers.receipt', $transfer)->with('success', 'Simulated transfer completed.');
+            AuditLog::query()->create([
+                'actor_user_id' => $request->user()->id,
+                'action' => 'transfer.failed',
+                'target_type' => 'account',
+                'target_id' => $data['account_id'] ?? null,
+                'metadata' => [
+                    'amount' => $data['amount'] ?? null,
+                    'reason' => $exception->getMessage(),
+                    'demo' => true,
+                ],
+                'ip_address' => $request->ip(),
+                'occurred_at' => now(),
+            ]);
+
+            return redirect()->route('transfers.create')->with('error', $exception->getMessage());
+        }
+
+        $request->session()->forget('transfer.preview');
+
+        return redirect()->route('transfers.receipt', $transfer)->with('success', 'Transfer completed successfully.');
     }
 
     public function receipt(Request $request, Transfer $transfer): View
     {
         abort_unless($transfer->sendingAccount->user_id === $request->user()->id, 404);
 
-        return view('transfers.receipt',compact('transfer'));
+        return view('transfers.receipt', compact('transfer'));
     }
 }

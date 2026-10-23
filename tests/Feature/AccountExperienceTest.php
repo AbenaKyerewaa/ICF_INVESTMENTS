@@ -16,7 +16,11 @@ class AccountExperienceTest extends TestCase
         $this->seed();
         $user = User::query()->where('email', 'maya.bennett@icf-investment.demo')->firstOrFail();
         $account = $user->accounts()->firstOrFail();
-        $this->actingAs($user)->get(route('accounts.show', $account))->assertOk()->assertSee('Synthetic DEMO/SIMULATED account activity');
+        $this->actingAs($user)
+            ->get(route('accounts.show', $account))
+            ->assertOk()
+            ->assertSee('Portfolio allocation')
+            ->assertSee('Investment allocation credit');
         $other = Account::factory()->create();
         $this->actingAs($user)->get(route('accounts.show', $other))->assertNotFound();
     }

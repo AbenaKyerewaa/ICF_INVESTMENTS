@@ -6,12 +6,12 @@ use Tests\TestCase;
 
 class LandingPageTest extends TestCase
 {
-    public function test_the_landing_page_displays_its_prototype_message(): void
+    public function test_the_landing_page_renders_successfully(): void
     {
         $response = $this->get(route('landing'));
 
         $response->assertOk();
         $response->assertSee('ICF Investment');
-        $response->assertSee('fictional data only');
+        $response->assertSee('Modern financial workspace');
     }
 }
