@@ -8,7 +8,7 @@
                 <div class="col-lg-8 col-xl-7">
                     <span class="eyebrow eyebrow-gold mb-3 fade-up">✦ TRUSTED BANKING & INVESTMENT SOLUTIONS</span>
                     <h1 class="hero-title mt-3 mb-4 fade-up-2">
-                        Bank with Confidence. <span>Invest in Your Future</span>.
+                        Bank with Confidence. <span style="color: #fef08a;">Invest in Your Future</span>.
                     </h1>
                     <p class="hero-copy mb-4 fade-up-3">
                        ICF Investment Bank delivers a modern approach to financial management, combining innovative banking solutions, strategic investment services, and transparent financial insights to help you manage your wealth with confidence. Track multi-asset portfolio performance, execute verified transfers and maintain an immutable ledger.                    </p>
@@ -69,7 +69,7 @@
     </div>
 
     {{-- Institutional Statistics --}}
-    <div class="bg-white py-5 border-bottom">
+    <div class="py-5 border-bottom" style="background: transparent;">
         <div class="page-container py-2">
             <div class="row g-4 text-center text-md-start">
                 <div class="col-sm-6 col-lg-3">
@@ -92,15 +92,15 @@
         </div>
     </div>
 
-    {{-- Capabilities Section --}}
-    <section id="capabilities" class="features-section py-5 py-lg-6">
-        <div class="page-container py-3">
+    {{-- Capabilities Section (Explore Architecture) --}}
+    <section id="capabilities" class="features-section py-5 py-lg-6 position-relative" style="background: linear-gradient(180deg, rgba(7, 15, 30, 0.88) 0%, rgba(7, 15, 30, 0.92) 100%), url('/images/customer.jpg') center / cover no-repeat fixed;">
+        <div class="page-container py-3 position-relative" style="z-index: 1;">
             <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-5">
                 <div>
-                    <span class="eyebrow mb-2">Institutional Capabilities</span>
-                    <h2 class="h2 fw-bold mt-2 mb-0" style="color: var(--icf-navy);">Engineered for private wealth standards.</h2>
+                    <span class="eyebrow eyebrow-gold mb-2">✦ Institutional Capabilities</span>
+                    <h2 class="h2 fw-bold mt-2 mb-0" style="color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">Engineered for private wealth standards.</h2>
                 </div>
-                <p class="text-secondary mb-0 max-w-md" style="max-width: 420px;">
+                <p class="mb-0 max-w-md" style="max-width: 420px; color: rgba(226, 232, 240, 0.85); text-shadow: 0 1px 4px rgba(0,0,0,0.3);">
                     Every transaction is guarded by strict ledger consistency rules, verified beneficiaries, and automated statement generation.
                 </p>
             </div>
@@ -160,39 +160,40 @@
                     </article>
                 </div>
             </div>
-        </div>
-    </section>
 
-    {{-- Security & Architecture Banner --}}
-    <section class="page-container py-5">
-        <div class="surface-card p-4 p-lg-5" style="background: linear-gradient(135deg, var(--icf-navy-2) 0%, var(--icf-navy) 100%); color: #fff; border-color: rgba(255,255,255,0.08);">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-8">
-                    <span class="eyebrow eyebrow-gold mb-3">Security &amp; Integrity</span>
-                    <h2 class="h2 fw-bold text-white mt-2 mb-3">Secure Banking Solutions for a Changing World.</h2>
-                    <p class="text-white-50 mb-4" style="line-height: 1.7; max-width: 620px;">
-ICF Investment Bank is committed to protecting client information through robust security measures, transparent financial reporting, and reliable transaction management. Our systems are designed to safeguard financial records, maintain accurate account balances, and support secure, efficient banking operations with integrity and accountability.                    </p>
-                    <div class="d-flex flex-wrap gap-4 text-white-50 small">
-                        <div class="d-flex align-items-center gap-2">
-                            <svg width="18" height="18" fill="none" stroke="var(--icf-gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                            <span>Session rate-limiting &amp; CSRF protection</span>
+            {{-- Security & Architecture Banner --}}
+            <div class="pt-5 mt-2">
+                <div class="surface-card p-4 p-lg-5" style="background: linear-gradient(135deg, var(--icf-navy-2) 0%, var(--icf-navy) 100%); color: #fff; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-8">
+                            <span class="eyebrow eyebrow-gold mb-3">✦ Security &amp; Integrity</span>
+                            <h2 class="h2 fw-bold text-white mt-2 mb-3">Secure Banking Solutions for a Changing World.</h2>
+                            <p class="text-white-50 mb-4" style="line-height: 1.7; max-width: 620px;">
+                                ICF Investment Bank is committed to protecting client information through robust security measures, transparent financial reporting, and reliable transaction management. Our systems are designed to safeguard financial records, maintain accurate account balances, and support secure, efficient banking operations with integrity and accountability.
+                            </p>
+                            <div class="d-flex flex-wrap gap-4 text-white-50 small">
+                                <div class="d-flex align-items-center gap-2">
+                                    <svg width="18" height="18" fill="none" stroke="var(--icf-gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    <span>Session rate-limiting &amp; CSRF protection</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <svg width="18" height="18" fill="none" stroke="var(--icf-gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    <span>Official signed PDF statements</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <svg width="18" height="18" fill="none" stroke="var(--icf-gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            <span>Official signed PDF statements</span>
+                        <div class="col-lg-4 text-center text-lg-end">
+                            @auth
+                                <a class="btn btn-icf-primary py-3 px-4 fs-6" href="{{ route('dashboard') }}">
+                                    Go to Dashboard →
+                                </a>
+                            @else
+                                <a class="btn btn-icf-primary py-3 px-4 fs-6" href="{{ route('login') }}">
+                                    Access Client Portal →
+                                </a>
+                            @endauth
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 text-center text-lg-end">
-                    @auth
-                        <a class="btn btn-icf-primary py-3 px-4 fs-6" href="{{ route('dashboard') }}">
-                            Go to Dashboard →
-                        </a>
-                    @else
-                        <a class="btn btn-icf-primary py-3 px-4 fs-6" href="{{ route('login') }}">
-                            Access Client Portal →
-                        </a>
-                    @endauth
                 </div>
             </div>
         </div>

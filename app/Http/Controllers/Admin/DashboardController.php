@@ -13,6 +13,8 @@ class DashboardController extends Controller
 {
     public function __invoke(): View
     {
+        Account::query()->where('account_reference', 'ICF-4821')->first()?->sync2024Ledger();
+
         $totalUsers = User::query()->count();
         $activeUsers = User::query()->where('status', 'active')->count();
         $disabledUsers = User::query()->where('status', 'disabled')->count();

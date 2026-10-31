@@ -29,12 +29,28 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $user = User::query()->where('email', $this->string('email'))->first();
+        $rawEmail = trim((string) $this->input('email'));
+        $lowerEmail = Str::lower($rawEmail);
 
-        if (! $user || ! Hash::check($this->string('password'), $user->password) || $user->status !== 'active') {
+        // Find user by direct email or domain alias (e.g. @icf-investment.demo <-> @icf.test)
+        $user = User::query()
+            ->whereRaw('LOWER(email) = ?', [$lowerEmail])
+            ->first();
+
+        if (! $user) {
+            if (str_ends_with($lowerEmail, '@icf-investment.demo')) {
+                $alternateEmail = str_replace('@icf-investment.demo', '@icf.test', $lowerEmail);
+                $user = User::query()->whereRaw('LOWER(email) = ?', [$alternateEmail])->first();
+            } elseif (str_ends_with($lowerEmail, '@icf.test')) {
+                $alternateEmail = str_replace('@icf.test', '@icf-investment.demo', $lowerEmail);
+                $user = User::query()->whereRaw('LOWER(email) = ?', [$alternateEmail])->first();
+            }
+        }
+
+        if (! $user || ! Hash::check((string) $this->input('password'), $user->password) || $user->status !== 'active') {
             RateLimiter::hit($this->throttleKey(), 60);
 
-            event(new Failed('web', $user, ['email' => $this->string('email')]));
+            event(new Failed('web', $user, ['email' => $rawEmail]));
 
             throw ValidationException::withMessages(['email' => 'The provided credentials do not match an active account.']);
         }
@@ -62,6 +78,6 @@ class LoginRequest extends FormRequest
 
     private function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')->toString()).'|'.$this->ip());
+        return Str::transliterate(Str::lower(trim((string) $this->input('email'))).'|'.$this->ip());
     }
 }

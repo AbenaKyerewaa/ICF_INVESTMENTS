@@ -22,7 +22,7 @@ class DocumentDownloadTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();
@@ -43,7 +43,7 @@ class DocumentDownloadTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();
@@ -64,7 +64,7 @@ class DocumentDownloadTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();
@@ -81,7 +81,7 @@ class DocumentDownloadTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
         $account = $customer->accounts()->firstOrFail();
         $beneficiary = $customer->beneficiaries()->firstOrFail();
@@ -117,7 +117,7 @@ class DocumentDownloadTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
         $account = $customer->accounts()->firstOrFail();
         $beneficiary = $customer->beneficiaries()->firstOrFail();

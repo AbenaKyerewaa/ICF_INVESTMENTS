@@ -13,6 +13,6 @@ class LandingPageTest extends TestCase
         $response->assertOk();
         $response->assertSee('International Capital &amp; Finance Investments Bank', false);
         $response->assertSee('Building Wealth, Securing Futures');
-        $response->assertSee('Modern financial workspace');
+        $response->assertSee('Bank with Confidence');
     }
 }

@@ -28,6 +28,10 @@ class ProcessSimulatedTransfer
             if ($account->status !== 'active') {
                 throw new DomainException('Your sending account is not active.');
             }
+
+            if (stripos($account->name, 'savings') !== false || $account->account_reference === 'ICF-SAVINGS-564') {
+                throw new DomainException('Withdrawals and transfers are restricted on this Savings Account. Outgoing transfers can only be processed from your Checkings Account.');
+            }
             $beneficiary = Beneficiary::query()->whereBelongsTo($user)->where('status', 'active')->whereKey($data['beneficiary_id'])->firstOrFail();
             $existing = Transfer::query()->where('sending_account_id', $account->id)->where('idempotency_key', $data['idempotency_key'])->first();
             if ($existing) {
@@ -48,7 +52,7 @@ class ProcessSimulatedTransfer
             }
 
             $reference = 'TRF-'.Str::upper(Str::random(12));
-            $transfer = Transfer::query()->create(['sending_account_id' => $account->id, 'beneficiary_id' => $beneficiary->id, 'reference' => $reference, 'idempotency_key' => $data['idempotency_key'], 'amount' => $data['amount'], 'currency' => $account->currency, 'status' => 'completed', 'user_reference' => $data['reference'], 'completed_at' => now(), 'metadata' => ['demo' => true]]);
+            $transfer = Transfer::query()->create(['sending_account_id' => $account->id, 'beneficiary_id' => $beneficiary->id, 'reference' => $reference, 'idempotency_key' => $data['idempotency_key'], 'amount' => $data['amount'], 'currency' => $account->currency, 'status' => 'completed', 'user_reference' => $data['reference'], 'completed_at' => now(), 'metadata' => []]);
             LedgerEntry::query()->create(['account_id' => $account->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-D", 'entry_type' => 'debit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'Transfer to '.$beneficiary->display_name, 'occurred_at' => now()]);
             LedgerEntry::query()->create(['account_id' => $clearing->id, 'transfer_id' => $transfer->id, 'entry_reference' => "$reference-C", 'entry_type' => 'credit', 'amount' => $data['amount'], 'currency' => $account->currency, 'description' => 'Settlement entry', 'occurred_at' => now()]);
             $account->update(['balance' => bcsub($account->balance, $data['amount'], 2)]);
@@ -63,11 +67,10 @@ class ProcessSimulatedTransfer
                     'reference' => $reference,
                     'amount' => $data['amount'],
                     'beneficiary' => $beneficiary->display_name,
-                    'demo' => true,
                 ],
             ]);
 
-            AuditLog::query()->create(['actor_user_id' => $user->id, 'action' => 'transfer.completed', 'target_type' => 'transfer', 'target_id' => $transfer->id, 'metadata' => ['reference' => $reference, 'demo' => true], 'occurred_at' => now()]);
+            AuditLog::query()->create(['actor_user_id' => $user->id, 'action' => 'transfer.completed', 'target_type' => 'transfer', 'target_id' => $transfer->id, 'metadata' => ['reference' => $reference], 'occurred_at' => now()]);
 
             return $transfer;
         });

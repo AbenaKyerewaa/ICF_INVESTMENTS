@@ -14,7 +14,7 @@ class AccountExperienceTest extends TestCase
     public function test_customer_can_view_only_their_account_history(): void
     {
         $this->seed();
-        $user = User::query()->where('email', 'maya.bennett@icf-investment.demo')->firstOrFail();
+        $user = User::query()->where('email', 'maya.bennett@icf.test')->firstOrFail();
         $account = $user->accounts()->firstOrFail();
         $this->actingAs($user)
             ->get(route('accounts.show', $account))
@@ -23,5 +23,16 @@ class AccountExperienceTest extends TestCase
             ->assertSee('Investment allocation credit');
         $other = Account::factory()->create();
         $this->actingAs($user)->get(route('accounts.show', $other))->assertNotFound();
+    }
+
+    public function test_customer_can_view_contact_page(): void
+    {
+        $this->seed();
+        $user = User::query()->where('email', 'maya.bennett@icf.test')->firstOrFail();
+        $this->actingAs($user)
+            ->get(route('contact'))
+            ->assertOk()
+            ->assertSee('Contact Customer Care')
+            ->assertSee('Direct Advisory Desk');
     }
 }

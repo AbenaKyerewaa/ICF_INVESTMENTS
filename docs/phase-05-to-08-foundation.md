@@ -33,11 +33,11 @@ Laravel uses the local MySQL database `icf_investment`. A full `php artisan migr
 - Passwords use Laravel hashing; profile updates use form requests and validated fields.
 - Password-reset delivery remains deferred until a safe mail configuration is selected.
 
-## Seeded fictional demo data
+## Seeded fictional data
 
-- Administrator: `admin@icf-investment.demo`
-- Customer: `maya.bennett@icf-investment.demo`
-- Password for local demonstration: `password`
+- Administrator: `admin@icf.test`
+- Customer: `maya.bennett@icf.test`
+- Password for local access: `password`
 - One active USD account with a reconciled `$1,000,000.00` balance.
 - Two fictional beneficiaries plus twelve months of synthetic credit/debit activity.
 

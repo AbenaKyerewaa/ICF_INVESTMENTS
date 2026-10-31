@@ -11,6 +11,8 @@ class NotificationController extends Controller
 {
     public function index(Request $request): View
     {
+        $this->ensureDefaultNotifications($request->user());
+
         $status = $request->query('status', 'all');
 
         $notifications = $request->user()
@@ -23,6 +25,92 @@ class NotificationController extends Controller
         $unreadCount = $request->user()->notifications()->whereNull('read_at')->count();
 
         return view('notifications.index', compact('notifications', 'unreadCount', 'status'));
+    }
+
+    private function ensureDefaultNotifications($user): void
+    {
+        $alerts = [
+            [
+                'type' => 'transfer.completed',
+                'title' => 'Incoming Wire Credit Settled',
+                'message' => 'A verified wire transfer of $185,000.00 from Victoria Kensington has been credited to your Checkings Account.',
+                'data' => ['reference' => 'TRX-20240321-4821', 'channel' => 'Fedwire Real-Time Gross Settlement', 'amount' => '$185,000.00'],
+                'created_at' => now()->subHours(2),
+                'read_at' => null,
+            ],
+            [
+                'type' => 'security.alert',
+                'title' => 'Authorized Session Clearance',
+                'message' => 'Your client portal login from IP 192.168.1.104 was verified via 2-Factor Authentication OTP code.',
+                'data' => ['auth_method' => 'SMS / Email OTP', 'device' => 'Chrome (Windows 11)', 'status' => 'Verified'],
+                'created_at' => now()->subHours(6),
+                'read_at' => null,
+            ],
+            [
+                'type' => 'transfer.completed',
+                'title' => 'Disbursement Cleared',
+                'message' => 'Outgoing transfer of $38,500.00 to Eleanor Vance was successfully settled and debited.',
+                'data' => ['reference' => 'TRX-20240124-4821', 'channel' => 'ACH Direct Clearing', 'amount' => '$38,500.00'],
+                'created_at' => now()->subDay(),
+                'read_at' => now()->subHours(18),
+            ],
+            [
+                'type' => 'account.alert',
+                'title' => 'Monthly Account Statement Available',
+                'message' => 'Your official account statement for your Checkings Account is ready for download in PDF format.',
+                'data' => ['document_type' => 'Institutional PDF Statement', 'account' => 'ICF-4821', 'status' => 'Certified'],
+                'created_at' => now()->subDays(2),
+                'read_at' => now()->subDays(2),
+            ],
+            [
+                'type' => 'transfer.completed',
+                'title' => 'Capital Remittance Received',
+                'message' => 'Incoming institutional distribution of $275,000.00 from Marcus Thorne has posted to your ledger.',
+                'data' => ['reference' => 'TRX-20240208-4821', 'rail' => 'SWIFT Global Clearing', 'amount' => '$275,000.00'],
+                'created_at' => now()->subDays(3),
+                'read_at' => now()->subDays(3),
+            ],
+            [
+                'type' => 'security.alert',
+                'title' => 'Beneficiary Directory Update',
+                'message' => 'A new counterparty recipient Northstar Advisory (NS-1001) has completed compliance screening.',
+                'data' => ['compliance' => 'OFAC / KYC Cleared', 'entity' => 'Northstar Advisory', 'routing' => 'Active'],
+                'created_at' => now()->subDays(4),
+                'read_at' => now()->subDays(4),
+            ],
+            [
+                'type' => 'account.alert',
+                'title' => 'Interest & Liquidity Credit',
+                'message' => 'Monthly portfolio yield distribution of $3,450.00 has been credited to your principal balance.',
+                'data' => ['yield_rate' => '4.85% APY', 'effective_date' => now()->subDays(5)->toDateString()],
+                'created_at' => now()->subDays(5),
+                'read_at' => now()->subDays(5),
+            ],
+            [
+                'type' => 'transfer.completed',
+                'title' => 'Disbursement to Julianna Mercer',
+                'message' => 'Wire settlement of $62,000.00 to Julianna Mercer was processed and confirmed.',
+                'data' => ['reference' => 'TRX-20240219-4821', 'channel' => 'Fedwire', 'amount' => '$62,000.00'],
+                'created_at' => now()->subDays(7),
+                'read_at' => now()->subDays(7),
+            ],
+        ];
+
+        foreach ($alerts as $alert) {
+            AccountNotification::query()->firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'title' => $alert['title'],
+                ],
+                [
+                    'type' => $alert['type'],
+                    'message' => $alert['message'],
+                    'data' => $alert['data'],
+                    'created_at' => $alert['created_at'],
+                    'read_at' => $alert['read_at'],
+                ]
+            );
+        }
     }
 
     public function markAsRead(Request $request, AccountNotification $notification): RedirectResponse

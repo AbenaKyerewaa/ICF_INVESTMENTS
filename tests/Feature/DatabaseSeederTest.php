@@ -9,15 +9,15 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
-class DemoDataSeederTest extends TestCase
+class DatabaseSeederTest extends TestCase
 {
     use LazilyRefreshDatabase;
 
-    public function test_the_demo_seed_data_is_fictional_and_reconciles_to_the_account_balance(): void
+    public function test_the_seed_data_reconciles_to_the_account_balance(): void
     {
         $this->seed();
 
-        $customer = User::query()->where('email', 'maya.bennett@icf-investment.demo')->firstOrFail();
+        $customer = User::query()->where('email', 'maya.bennett@icf.test')->firstOrFail();
         $account = Account::query()->whereBelongsTo($customer)->firstOrFail();
         $credits = LedgerEntry::query()->whereBelongsTo($account)->where('entry_type', 'credit')->pluck('amount')->reduce(fn (string $total, string $amount): string => bcadd($total, $amount, 2), '0.00');
         $debits = LedgerEntry::query()->whereBelongsTo($account)->where('entry_type', 'debit')->pluck('amount')->reduce(fn (string $total, string $amount): string => bcadd($total, $amount, 2), '0.00');

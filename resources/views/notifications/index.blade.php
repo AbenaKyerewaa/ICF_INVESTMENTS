@@ -1,18 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+<div style="min-height: calc(100vh - var(--topbar-h)); background: linear-gradient(180deg, rgba(7, 15, 30, 0.35) 0%, rgba(7, 15, 30, 0.52) 100%), url('/images/notification.jpg') center / cover no-repeat fixed;">
 <div class="page-container">
-    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 pb-3 border-bottom" style="border-color: rgba(255, 255, 255, 0.22) !important;">
         <div>
-            <span class="eyebrow eyebrow-gold">✦ Activity Alerts</span>
-            <h1 class="h2 fw-bold mt-2 mb-1" style="color: var(--icf-navy);">Notifications</h1>
-            <p class="text-secondary mb-0">Real-time transfer updates, statements, and account security events.</p>
+            <div class="mb-2">
+                <span class="eyebrow eyebrow-gold">✦ Activity Alerts</span>
+            </div>
+            <h1 class="h2 fw-bold mb-1" style="color: #ffffff !important; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">Notifications</h1>
+            <p class="mb-0" style="color: rgba(255, 255, 255, 0.88) !important; text-shadow: 0 1px 4px rgba(0,0,0,0.35);">Real-time transfer updates, statements, and account security events.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
             @if($unreadCount > 0)
                 <form method="POST" action="{{ route('notifications.read-all') }}">
                     @csrf
-                    <button type="submit" class="btn btn-sm btn-icf-secondary">Mark all as read</button>
+                    <button type="submit" class="btn btn-sm btn-icf-secondary shadow-sm" style="background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(255, 255, 255, 0.5);">Mark all as read</button>
                 </form>
             @endif
         </div>
@@ -98,5 +101,6 @@
             {{ $notifications->links() }}
         </div>
     @endif
+</div>
 </div>
 @endsection

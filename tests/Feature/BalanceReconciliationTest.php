@@ -24,7 +24,7 @@ class BalanceReconciliationTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = Account::query()->whereBelongsTo($customer)->firstOrFail();
@@ -53,7 +53,7 @@ class BalanceReconciliationTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();
@@ -103,7 +103,7 @@ class BalanceReconciliationTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();
@@ -114,7 +114,7 @@ class BalanceReconciliationTest extends TestCase
             ->post(route('transfers.preview'), [
                 'account_id' => $account->id,
                 'beneficiary_id' => $beneficiary->id,
-                'amount' => '9999999.00',  // exceeds the $1,000,000 demo balance
+                'amount' => '9999999.00',  // exceeds the $1,000,000 balance
                 'reference' => 'Overdraft attempt',
             ])
             ->assertRedirect(route('transfers.review'));
@@ -135,7 +135,7 @@ class BalanceReconciliationTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $customer->accounts()->firstOrFail();

@@ -18,7 +18,7 @@ class TransferWorkflowTest extends TestCase
         $this->seed();
 
         $user = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $user->accounts()->firstOrFail();
@@ -53,7 +53,7 @@ class TransferWorkflowTest extends TestCase
         $this->seed();
 
         $user = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $user->accounts()->firstOrFail();
@@ -94,7 +94,7 @@ class TransferWorkflowTest extends TestCase
         $this->seed();
 
         $user = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $account = $user->accounts()->firstOrFail();
@@ -133,7 +133,7 @@ class TransferWorkflowTest extends TestCase
 
         $users = User::query()
             ->whereIn('email', [
-                'maya.bennett@icf-investment.demo',
+                'maya.bennett@icf.test',
             ])
             ->get();
 

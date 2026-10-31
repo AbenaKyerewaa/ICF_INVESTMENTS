@@ -26,7 +26,7 @@ class BeneficiaryController extends Controller
     public function store(StoreBeneficiaryRequest $request): RedirectResponse
     {
         $beneficiary = $request->user()->beneficiaries()->create([
-            ...$request->safe()->only(['display_name', 'account_identifier', 'institution_name']),
+            ...$request->safe()->only(['display_name', 'account_identifier', 'institution_name', 'bank_address']),
             'currency' => 'USD',
             'status' => 'active',
         ]);
@@ -36,12 +36,13 @@ class BeneficiaryController extends Controller
             'action' => 'beneficiary.created',
             'target_type' => 'beneficiary',
             'target_id' => $beneficiary->id,
-            'metadata' => [
+            'metadata' => array_filter([
                 'display_name' => $beneficiary->display_name,
                 'institution_name' => $beneficiary->institution_name,
                 'account_identifier' => $beneficiary->account_identifier,
-                'demo' => true,
-            ],
+                'routing_number' => $request->input('routing_number'),
+                'bank_address' => $beneficiary->bank_address,
+            ]),
             'ip_address' => $request->ip(),
             'occurred_at' => now(),
         ]);
@@ -50,11 +51,10 @@ class BeneficiaryController extends Controller
             'user_id' => $request->user()->id,
             'type' => 'beneficiary.added',
             'title' => 'Beneficiary Added',
-            'message' => 'New beneficiary '.$beneficiary->display_name.' was added to your demo account.',
+            'message' => 'New beneficiary '.$beneficiary->display_name.' was added to your account.',
             'data' => [
                 'beneficiary_id' => $beneficiary->id,
                 'display_name' => $beneficiary->display_name,
-                'demo' => true,
             ],
         ]);
 
@@ -65,22 +65,30 @@ class BeneficiaryController extends Controller
     {
         abort_unless($beneficiary->user_id === $request->user()->id, 404);
 
-        $beneficiary->update($request->safe()->only(['display_name', 'account_identifier', 'institution_name']));
+        $beneficiary->update($request->safe()->only([
+            'display_name',
+            'account_identifier',
+            'institution_name',
+            'bank_address',
+        ]));
 
         AuditLog::query()->create([
             'actor_user_id' => $request->user()->id,
             'action' => 'beneficiary.updated',
             'target_type' => 'beneficiary',
             'target_id' => $beneficiary->id,
-            'metadata' => [
+            'metadata' => array_filter([
                 'display_name' => $beneficiary->display_name,
-                'demo' => true,
-            ],
+                'account_identifier' => $beneficiary->account_identifier,
+                'institution_name' => $beneficiary->institution_name,
+                'bank_address' => $beneficiary->bank_address,
+                'routing_number' => $request->input('routing_number'),
+            ]),
             'ip_address' => $request->ip(),
             'occurred_at' => now(),
         ]);
 
-        return back()->with('success', 'Beneficiary updated.');
+        return back()->with('success', 'Beneficiary details updated successfully.');
     }
 
     public function deactivate(Request $request, Beneficiary $beneficiary): RedirectResponse
@@ -96,7 +104,6 @@ class BeneficiaryController extends Controller
             'target_id' => $beneficiary->id,
             'metadata' => [
                 'display_name' => $beneficiary->display_name,
-                'demo' => true,
             ],
             'ip_address' => $request->ip(),
             'occurred_at' => now(),

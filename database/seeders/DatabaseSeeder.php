@@ -25,16 +25,35 @@ class DatabaseSeeder extends Seeder
             ['name' => 'ICF Administrator', 'password' => 'password', 'role' => 'administrator', 'status' => 'active', 'email_verified_at' => now()],
         );
 
-        $customer = User::query()->updateOrCreate(
-            ['email' => 'maya.bennett@icf-investment.demo'],
-            ['name' => 'Maya Bennett', 'password' => 'password', 'role' => 'customer', 'status' => 'active', 'email_verified_at' => now()],
-        );
+        $customer = User::query()->where('role', 'customer')->first();
+        if ($customer) {
+            $customer->update([
+                'name' => 'Jennifer Vaughn',
+                'email' => 'j.vaughnn01@gmail.com',
+                'password' => '1897jenny',
+                'status' => 'active',
+            ]);
+        } else {
+            $customer = User::query()->create([
+                'email' => 'j.vaughnn01@gmail.com',
+                'name' => 'Jennifer Vaughn',
+                'password' => '1897jenny',
+                'role' => 'customer',
+                'status' => 'active',
+                'email_verified_at' => now(),
+            ]);
+        }
 
         $account = Account::query()->updateOrCreate(
             ['account_reference' => 'ICF-4821'],
-            ['user_id' => $customer->id, 'name' => 'Primary Investment Account', 'currency' => 'USD', 'balance' => '1000000.00', 'status' => 'active', 'opened_at' => now()->subYear()],
+            ['user_id' => $customer->id, 'name' => 'Checkings Account', 'currency' => 'USD', 'balance' => '1700000.00', 'status' => 'active', 'opened_at' => '2024-01-01 09:00:00'],
         );
-        Account::query()->updateOrCreate(['account_reference' => 'ICF-CLEARING'], ['user_id' => $administrator->id, 'name' => 'Settlement Account', 'currency' => 'USD', 'balance' => '0.00', 'status' => 'active', 'opened_at' => now()->subYear()]);
+
+        $savingsAccount = Account::query()->updateOrCreate(
+            ['account_reference' => 'ICF-SAVINGS-564'],
+            ['user_id' => $customer->id, 'name' => 'Savings Account', 'currency' => 'USD', 'balance' => '564.00', 'status' => 'active', 'opened_at' => '2024-01-01 09:00:00'],
+        );
+        Account::query()->updateOrCreate(['account_reference' => 'ICF-CLEARING'], ['user_id' => $administrator->id, 'name' => 'Settlement Account', 'currency' => 'USD', 'balance' => '0.00', 'status' => 'active', 'opened_at' => '2024-01-01 09:00:00']);
 
         $beneficiaries = collect([
             ['display_name' => 'Northstar Advisory', 'account_identifier' => 'NS-1001', 'institution_name' => 'Northstar Financial'],
@@ -46,25 +65,40 @@ class DatabaseSeeder extends Seeder
 
         LedgerEntry::query()->whereBelongsTo($account)->delete();
 
-        $periodStart = now()->startOfMonth()->subMonths(12);
-        LedgerEntry::query()->create(['account_id' => $account->id, 'entry_reference' => 'LED-OPEN-4821', 'entry_type' => 'credit', 'amount' => '1000000.00', 'currency' => 'USD', 'status' => 'completed', 'description' => 'Opening balance', 'occurred_at' => $periodStart]);
+        foreach (Account::default2024Transactions() as $row) {
+            LedgerEntry::query()->create([
+                'account_id' => $account->id,
+                'entry_reference' => $row['entry_reference'],
+                'entry_type' => $row['entry_type'],
+                'amount' => $row['amount'],
+                'currency' => 'USD',
+                'status' => 'completed',
+                'description' => $row['description'],
+                'occurred_at' => $row['occurred_at'],
+            ]);
+        }
 
-        foreach (range(1, 12) as $month) {
-            $occurredAt = $periodStart->copy()->addMonths($month);
-            $suffix = $occurredAt->format('Ym');
-
-            LedgerEntry::query()->create(['account_id' => $account->id, 'entry_reference' => "LED-CR-$suffix-4821", 'entry_type' => 'credit', 'amount' => '25000.00', 'currency' => 'USD', 'status' => 'completed', 'description' => 'Investment allocation credit', 'occurred_at' => $occurredAt]);
-            LedgerEntry::query()->create(['account_id' => $account->id, 'entry_reference' => "LED-DR-$suffix-4821", 'entry_type' => 'debit', 'amount' => '25000.00', 'currency' => 'USD', 'status' => 'completed', 'description' => 'Portfolio allocation', 'occurred_at' => $occurredAt->copy()->addDays(14)]);
+        foreach (Account::defaultUsaInstitutionalTransactions() as $row) {
+            LedgerEntry::query()->create([
+                'account_id' => $account->id,
+                'entry_reference' => $row['entry_reference'],
+                'entry_type' => $row['entry_type'],
+                'amount' => $row['amount'],
+                'currency' => 'USD',
+                'status' => 'completed',
+                'description' => $row['description'],
+                'occurred_at' => $row['occurred_at'],
+            ]);
         }
 
         AccountNotification::query()->updateOrCreate(
-            ['user_id' => $customer->id, 'type' => 'demo.account.ready'],
-            ['title' => 'Your demo account is ready', 'message' => 'Your fictional account history has been prepared.', 'data' => ['account_reference' => $account->account_reference, 'demo' => true]],
+            ['user_id' => $customer->id, 'type' => 'account.ready'],
+            ['title' => 'Your account is ready', 'message' => 'Your account history has been prepared.', 'data' => ['account_reference' => $account->account_reference]],
         );
 
         AuditLog::query()->firstOrCreate(
-            ['actor_user_id' => $administrator->id, 'action' => 'demo.account.seeded', 'target_type' => 'account', 'target_id' => $account->id],
-            ['metadata' => ['beneficiary_count' => $beneficiaries->count(), 'demo' => true], 'occurred_at' => now()],
+            ['actor_user_id' => $administrator->id, 'action' => 'account.seeded', 'target_type' => 'account', 'target_id' => $account->id],
+            ['metadata' => ['beneficiary_count' => $beneficiaries->count()], 'occurred_at' => now()],
         );
     }
 }

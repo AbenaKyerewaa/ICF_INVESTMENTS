@@ -10,7 +10,13 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request, AccountAnalyticsService $analyticsService): View
     {
-        $account = $request->user()->accounts()->where('status', 'active')->first();
+        $checkingsAccount = $request->user()->accounts()->where('account_reference', 'ICF-4821')->first()
+            ?? $request->user()->accounts()->where('status', 'active')->first();
+        $checkingsAccount?->sync2024Ledger();
+
+        $account = $checkingsAccount;
+        $savingsAccount = $request->user()->accounts()->where('account_reference', 'ICF-SAVINGS-564')->first();
+
         $recentEntries = $account?->ledgerEntries()->orderByDesc('occurred_at')->limit(5)->get() ?? collect();
 
         $range = $request->query('range', '12m');
@@ -23,6 +29,6 @@ class DashboardController extends Controller
 
         $unreadNotificationsCount = $request->user()->notifications()->whereNull('read_at')->count();
 
-        return view('dashboard', compact('account', 'recentEntries', 'analytics', 'range', 'from', 'to', 'unreadNotificationsCount'));
+        return view('dashboard', compact('account', 'savingsAccount', 'recentEntries', 'analytics', 'range', 'from', 'to', 'unreadNotificationsCount'));
     }
 }

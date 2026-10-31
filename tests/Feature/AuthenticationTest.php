@@ -40,6 +40,23 @@ class AuthenticationTest extends TestCase
         $this->get(route('dashboard'))->assertOk()->assertSee($user->name);
     }
 
+    public function test_user_can_sign_in_with_domain_alias_and_whitespace_or_mixed_case(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'maya.bennett@icf.test',
+            'password' => 'password',
+            'status' => 'active',
+        ]);
+
+        $response = $this->post(route('login.store'), [
+            'email' => '  Maya.Bennett@icf-investment.demo  ',
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(route('login.otp'));
+        $this->assertSame($user->id, session('login.otp_user_id'));
+    }
+
     public function test_user_cannot_authenticate_with_invalid_otp(): void
     {
         $user = User::factory()->create();
@@ -88,19 +105,31 @@ class AuthenticationTest extends TestCase
     public function test_an_authenticated_user_can_update_their_profile_and_password(): void
     {
         $user = User::factory()->create();
+        $otp = (string) config('auth.login_otp', '847291');
 
         $this->actingAs($user)
-            ->patch(route('profile.update'), ['name' => 'Maya Updated', 'email' => 'maya.updated@example.test'])
+            ->patch(route('profile.update'), [
+                'name' => 'Maya Updated',
+                'email' => 'maya.updated@example.test',
+                'phone' => '+1 (555) 019-2834',
+                'otp' => $otp,
+            ])
             ->assertRedirect(route('profile.edit'));
 
         $this->actingAs($user)
-            ->put(route('profile.password.update'), ['current_password' => 'password', 'password' => 'a-secure-password', 'password_confirmation' => 'a-secure-password'])
+            ->put(route('profile.password.update'), [
+                'current_password' => 'password',
+                'password' => 'a-secure-password',
+                'password_confirmation' => 'a-secure-password',
+                'otp' => $otp,
+            ])
             ->assertRedirect(route('profile.edit'));
 
         $user->refresh();
 
         $this->assertSame('Maya Updated', $user->name);
         $this->assertSame('maya.updated@example.test', $user->email);
+        $this->assertSame('+1 (555) 019-2834', $user->phone);
         $this->assertTrue(Hash::check('a-secure-password', $user->password));
     }
 }

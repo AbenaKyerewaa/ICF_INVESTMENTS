@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="auth-wrap">
-        <div class="auth-card">
+    <div class="auth-wrap" style="background: linear-gradient(180deg, rgba(7, 15, 30, 0.45) 0%, rgba(7, 15, 30, 0.65) 100%), url('/images/benefit.jpg') center / cover no-repeat fixed;">
+        <div class="auth-card" style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 20px 40px -15px rgba(2, 6, 23, 0.5);">
             <div class="text-center mb-4">
                 <div class="brand-mark mx-auto mb-3" style="width: 2.75rem; height: 2.75rem; font-size: 0.9rem;">ICF</div>
                 <span class="eyebrow eyebrow-gold mb-2">Two-Step Security Gate</span>
@@ -13,9 +13,15 @@
             {{-- Verified User Identity Pill --}}
             <div class="d-flex align-items-center justify-content-between p-2 px-3 rounded-3 bg-light border mb-4">
                 <div class="d-flex align-items-center gap-2 text-truncate me-2">
-                    <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--icf-blue); color: #fff; display: grid; place-items: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0;">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                    </div>
+                    @if($user->avatarUrl())
+                        <div style="width: 26px; height: 26px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1.5px solid var(--icf-blue);">
+                            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    @else
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--icf-blue); color: #fff; display: grid; place-items: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0;">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
+                    @endif
                     <span class="small fw-semibold text-dark text-truncate">{{ $user->email }}</span>
                 </div>
                 <span class="badge-status badge-active flex-shrink-0" style="font-size: 0.65rem;">

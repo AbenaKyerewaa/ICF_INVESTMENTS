@@ -72,18 +72,49 @@
                             </td>
                             <td>
                                 @if($user->accounts->isNotEmpty())
-                                    <div class="d-flex flex-column gap-1">
+                                    <div class="d-flex flex-column gap-2">
                                         @foreach($user->accounts as $acc)
-                                            <div class="d-flex align-items-center gap-2 small">
-                                                <span class="font-monospace fw-semibold">{{ $acc->account_reference }}</span>:
-                                                <span>${{ number_format($acc->balance, 2) }}</span>
-                                                <span class="badge {{ $acc->status === 'active' ? 'bg-success-subtle text-success border border-success' : 'bg-secondary' }}" style="font-size: .65rem;">
-                                                    {{ $acc->status }}
-                                                </span>
-                                                <form method="POST" action="{{ route('admin.accounts.toggle-status', $acc) }}" class="d-inline" onsubmit="return confirm('Change status for account {{ $acc->account_reference }}?');">
+                                            <div class="p-2 rounded-2 border bg-light-subtle">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 small mb-2">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="font-monospace fw-semibold">{{ $acc->account_reference }}</span>:
+                                                        <span class="fw-bold text-dark">${{ number_format($acc->balance, 2) }}</span>
+                                                        <span class="badge {{ $acc->status === 'active' ? 'bg-success-subtle text-success border border-success' : 'bg-secondary' }}" style="font-size: .65rem;">
+                                                            {{ $acc->status }}
+                                                        </span>
+                                                    </div>
+                                                    <form method="POST" action="{{ route('admin.accounts.toggle-status', $acc) }}" class="d-inline" onsubmit="return confirm('Change status for account {{ $acc->account_reference }}?');">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-link p-0 text-muted" style="font-size: .7rem;" title="Toggle account status">
+                                                            [{{ $acc->status === 'active' ? 'Disable' : 'Enable' }}]
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                                {{-- Add Funds Form --}}
+                                                <form method="POST" action="{{ route('admin.accounts.deposit', $acc) }}" class="d-flex flex-wrap align-items-center gap-2">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-link p-0 text-muted" style="font-size: .7rem;" title="Toggle account status">
-                                                        [{{ $acc->status === 'active' ? 'Disable' : 'Enable' }}]
+                                                    <div class="input-group input-group-sm" style="max-width: 155px;">
+                                                        <span class="input-group-text">$</span>
+                                                        <input
+                                                            type="number"
+                                                            name="amount"
+                                                            step="0.01"
+                                                            min="0.01"
+                                                            class="form-control"
+                                                            placeholder="Amount"
+                                                            required
+                                                        >
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        name="description"
+                                                        class="form-control form-control-sm"
+                                                        style="max-width: 195px;"
+                                                        placeholder="Memo (optional)"
+                                                    >
+                                                    <button type="submit" class="btn btn-sm btn-success fw-semibold" style="font-size: .75rem; padding: .25rem .65rem;">
+                                                        + Add Funds
                                                     </button>
                                                 </form>
                                             </div>

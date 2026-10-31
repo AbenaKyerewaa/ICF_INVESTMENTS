@@ -20,7 +20,6 @@ class RecordAuthenticationAuditLog
             'metadata' => [
                 'email' => $event->user->email,
                 'role' => $event->user->role,
-                'demo' => true,
             ],
             'ip_address' => request()->ip(),
             'occurred_at' => now(),
@@ -37,7 +36,6 @@ class RecordAuthenticationAuditLog
             'metadata' => [
                 // Strictly exclude password or credentials
                 'attempted_email' => $event->credentials['email'] ?? null,
-                'demo' => true,
             ],
             'ip_address' => request()->ip(),
             'occurred_at' => now(),
@@ -54,7 +52,6 @@ class RecordAuthenticationAuditLog
                 'target_id' => $event->user->id,
                 'metadata' => [
                     'email' => $event->user->email,
-                    'demo' => true,
                 ],
                 'ip_address' => request()->ip(),
                 'occurred_at' => now(),

@@ -17,7 +17,7 @@ class Phase14AdminToolsTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $this->actingAs($customer)
@@ -59,7 +59,7 @@ class Phase14AdminToolsTest extends TestCase
             ->firstOrFail();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $this->actingAs($admin)
@@ -138,7 +138,7 @@ class Phase14AdminToolsTest extends TestCase
 
         AuditLog::query()->create([
             'actor_user_id' => $admin->id,
-            'action' => 'demo.custom_test_action',
+            'action' => 'audit.custom_test_action',
             'target_type' => 'test',
             'target_id' => 1,
             'metadata' => ['key' => 'value'],
@@ -146,16 +146,16 @@ class Phase14AdminToolsTest extends TestCase
         ]);
 
         $this->actingAs($admin)
-            ->get(route('admin.audit-logs.index', ['action' => 'demo.custom_test_action']))
+            ->get(route('admin.audit-logs.index', ['action' => 'audit.custom_test_action']))
             ->assertOk()
-            ->assertSee('demo.custom_test_action');
+            ->assertSee('audit.custom_test_action');
     }
 
     public function test_failed_login_creates_audit_log_without_recording_password(): void
     {
         $this->from(route('login'))
             ->post(route('login.store'), [
-                'email' => 'maya.bennett@icf-investment.demo',
+                'email' => 'maya.bennett@icf.test',
                 'password' => 'wrong-secret-password-1234',
             ])
             ->assertRedirect(route('login'));
@@ -166,7 +166,7 @@ class Phase14AdminToolsTest extends TestCase
             ->first();
 
         $this->assertNotNull($log);
-        $this->assertSame('maya.bennett@icf-investment.demo', $log->metadata['attempted_email'] ?? null);
+        $this->assertSame('maya.bennett@icf.test', $log->metadata['attempted_email'] ?? null);
         $this->assertStringNotContainsString('wrong-secret-password-1234', json_encode($log->metadata));
     }
 }

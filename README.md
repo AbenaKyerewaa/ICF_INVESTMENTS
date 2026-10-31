@@ -1,14 +1,14 @@
 # ICF Investment Dashboard
 
-> **⚠ Simulation Notice — This is a portfolio demonstration.**  
-> ICF Investment Dashboard is a **non-functional, simulated** investment/banking-style web application.  
-> It does **not** accept real deposits, execute real payments, connect to any bank rails, or handle real financial credentials. All balances, transactions, and account data are entirely fictional and generated solely for demonstration purposes.
+> **⚠ Simulation Notice — Institutional Client Prototype.**  
+> ICF Investment Dashboard is a simulated investment/banking-style web application.  
+> It does **not** accept real deposits, execute real payments, connect to any bank rails, or handle real financial credentials. All balances, transactions, and account data are simulated.
 
 ---
 
 ## Purpose
 
-A polished full-stack Laravel portfolio project that demonstrates:
+A polished full-stack Laravel portfolio project that features:
 
 - Authenticated multi-role user experience (customer + admin)
 - Double-entry ledger accounting with balance reconciliation
@@ -131,13 +131,13 @@ This runs `composer install`, copies `.env.example`, generates `APP_KEY`, runs m
 
 ---
 
-## Demo Credentials
+## Access Credentials
 
-> These credentials are for the pre-seeded demo data only. Do **not** use real passwords here.
+> These credentials are for pre-seeded accounts. Do **not** use real passwords here.
 
 | Role | Email | Password |
 |---|---|---|
-| Customer | maya.bennett@icf-investment.demo | password |
+| Customer | maya.bennett@icf.test | password |
 | Administrator | admin@icf.test | password |
 
 ---

@@ -16,15 +16,14 @@ class Phase13ChartsAndNotificationsTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $response = $this->actingAs($customer)
-            ->get(route('dashboard'))
+            ->get(route('analysis'))
             ->assertOk()
-            ->assertSee('Activity trends')
             ->assertSee('Credit vs Debit Timeline')
-            ->assertSee('Monthly Cashflow Breakdown')
+            ->assertSee('Monthly Breakdown')
             ->assertSee('window.accountChartData', false);
 
         /** @var array<string, mixed> $analytics */
@@ -38,16 +37,16 @@ class Phase13ChartsAndNotificationsTest extends TestCase
         $this->assertNotEmpty($analytics['debits']);
     }
 
-    public function test_dashboard_supports_date_range_filtering(): void
+    public function test_analysis_supports_date_range_filtering(): void
     {
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $response = $this->actingAs($customer)
-            ->get(route('dashboard', ['range' => '30d']))
+            ->get(route('analysis', ['range' => '30d']))
             ->assertOk();
 
         $analytics = $response->viewData('analytics');
@@ -60,7 +59,7 @@ class Phase13ChartsAndNotificationsTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $notification = AccountNotification::query()->create([
@@ -68,7 +67,7 @@ class Phase13ChartsAndNotificationsTest extends TestCase
             'type' => 'transfer.completed',
             'title' => 'Simulated Transfer Processed',
             'message' => 'Simulated transfer of $500.00 completed.',
-            'data' => ['demo' => true],
+            'data' => ['status' => 'completed'],
         ]);
 
         $this->actingAs($customer)
@@ -88,7 +87,7 @@ class Phase13ChartsAndNotificationsTest extends TestCase
         // Mark all as read
         AccountNotification::query()->create([
             'user_id' => $customer->id,
-            'type' => 'demo.alert',
+            'type' => 'system.alert',
             'title' => 'Another Notification',
             'message' => 'Test message',
             'read_at' => null,
@@ -106,7 +105,7 @@ class Phase13ChartsAndNotificationsTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $otherUser = User::factory()->create();

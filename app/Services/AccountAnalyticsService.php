@@ -28,7 +28,9 @@ class AccountAnalyticsService
      */
     public function getMonthlyTrends(Account $account, string $range = '12m', ?string $from = null, ?string $to = null): array
     {
-        [$startDate, $endDate] = $this->resolveDateRange($range, $from, $to);
+        $account->sync2024Ledger();
+
+        [$startDate, $endDate] = $this->resolveDateRange($account, $range, $from, $to);
 
         $entries = $account->ledgerEntries()
             ->whereBetween('occurred_at', [$startDate->copy()->startOfDay(), $endDate->copy()->endOfDay()])
@@ -93,7 +95,7 @@ class AccountAnalyticsService
     /**
      * @return array{0: Carbon, 1: Carbon}
      */
-    private function resolveDateRange(string $range, ?string $from, ?string $to): array
+    private function resolveDateRange(Account $account, string $range, ?string $from, ?string $to): array
     {
         if ($from && $to) {
             $start = Carbon::parse($from);
@@ -105,12 +107,16 @@ class AccountAnalyticsService
             return [$start, $end];
         }
 
-        $endDate = now();
+        $latestOccurredAt = $account->ledgerEntries()->max('occurred_at');
+        $endDate = $latestOccurredAt
+            ? Carbon::parse($latestOccurredAt)->endOfMonth()
+            : Carbon::create(2024, 12, 31)->endOfDay();
+
         $startDate = match ($range) {
-            '30d' => now()->subDays(30),
-            '90d' => now()->subDays(90),
-            '6m' => now()->subMonths(5)->startOfMonth(),
-            default => now()->subMonths(11)->startOfMonth(),
+            '30d' => $endDate->copy()->subDays(30)->startOfDay(),
+            '90d' => $endDate->copy()->subDays(90)->startOfDay(),
+            '6m' => $endDate->copy()->subMonths(5)->startOfMonth(),
+            default => $endDate->copy()->subMonths(11)->startOfMonth(),
         };
 
         return [$startDate, $endDate];

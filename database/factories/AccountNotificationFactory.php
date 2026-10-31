@@ -9,6 +9,6 @@ class AccountNotificationFactory extends Factory
 {
     public function definition(): array
     {
-        return ['user_id' => User::factory(), 'type' => 'demo.activity', 'title' => 'Demo account update', 'message' => 'This is fictional account activity.', 'data' => ['demo' => true]];
+        return ['user_id' => User::factory(), 'type' => 'account.activity', 'title' => 'Account update', 'message' => 'This is an account activity update.', 'data' => []];
     }
 }

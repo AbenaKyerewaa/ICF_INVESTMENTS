@@ -123,7 +123,7 @@ Work through each flow on the **live URL**:
 | Check | Expected |
 |---|---|
 | Visit homepage | Simulation notice visible; no debug output |
-| Login as customer (maya.bennett@icf-investment.demo / password) | Redirects to dashboard |
+| Login as customer (maya.bennett@icf.test / password) | Redirects to dashboard |
 | Dashboard balance card and charts | Data loaded; no JS errors in console |
 | Date-range filter (30D / 12M) | Chart updates correctly |
 | New simulated transfer | Completes; receipt page loads |

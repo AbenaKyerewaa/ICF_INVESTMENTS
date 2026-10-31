@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&display=swap');
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 /* ─── Design Tokens ─────────────────────────────────────────────────── */
@@ -13,6 +13,7 @@
     --icf-gold-pale: rgba(201,168,76,.12);
 
     /* Light surface palette */
+    --icf-customer-bg: #C5C6D0;      /* Customer section background */
     --icf-surface:   #ffffff;
     --icf-sand:      #f5f7fc;
     --icf-border:    #e4e9f2;
@@ -34,7 +35,7 @@
     --bs-link-hover-color:hsl(221,80%,45%);
 
     /* Chrome */
-    --topbar-h: 4.5rem;
+    --topbar-h: 5.25rem;
     --sidebar-w: 17rem;
     --radius-sm: .5rem;
     --radius-md: .875rem;
@@ -67,6 +68,146 @@ body {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 1px 0 var(--icf-border), var(--shadow-sm);
+}
+
+/* Deep navy topbar for landing / public area matching brand header */
+.app-topbar.topbar-landing {
+    background: #071f3b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark topbar for logged in state (matches brand header) */
+.app-topbar.topbar-dark {
+    background: #071f3b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+.app-topbar.topbar-dark .btn-topbar {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+/* Header brand matching screenshot: ICF | Investment Management */
+.topbar-brand-serif {
+    font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    line-height: 1;
+}
+.topbar-brand-divider {
+    width: 1px;
+    height: 1.6rem;
+    background: rgba(255, 255, 255, 0.22);
+}
+.topbar-brand-text {
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.02em;
+}
+
+/* Header horizontal nav links */
+.topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.topbar-nav::-webkit-scrollbar {
+    display: none;
+}
+.topbar-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.52rem 0.85rem;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    border-radius: var(--radius-sm, 0.5rem);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+.topbar-nav-link svg {
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+.topbar-nav-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+.topbar-nav-link.is-active {
+    color: #ffffff;
+    background: rgba(37, 99, 235, 0.32);
+    border: 1px solid rgba(37, 99, 235, 0.5);
+}
+
+.topbar-nav-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+.topbar-nav-icon:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.topbar-user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.48rem 0.8rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.84rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+.topbar-user-pill:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+.topbar-user-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.btn-topbar-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-sm, 0.5rem);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+.btn-topbar-ghost:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 /* Brand */
@@ -214,6 +355,32 @@ body {
     width: min(100%, 84rem);
     padding: 2.5rem clamp(1.25rem, 4vw, 3.5rem) 4rem;
     margin: 0 auto;
+}
+
+/* ─── Page Title H1 Gold Style ───────────────────────────────────────── */
+.page-container h1:not(.hero-title),
+.app-content h1:not(.hero-title) {
+    font-family: 'Playfair Display', 'Cinzel', Georgia, 'Times New Roman', serif;
+    font-size: calc(2rem + 3px) !important;
+    display: inline-block;
+    background: linear-gradient(135deg, #f5dd8c 0%, #d4af37 38%, #c9a84c 70%, #b89332 100%);
+    color: #070f1e !important;
+    padding: 0.45rem 1.35rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    box-shadow: 0 4px 16px rgba(201, 168, 76, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(184, 147, 50, 0.4);
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    line-height: 1.25;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    margin-bottom: 0.5rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.page-container h1:not(.hero-title):hover,
+.app-content h1:not(.hero-title):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(201, 168, 76, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 /* ─── Surface cards ──────────────────────────────────────────────────── */
@@ -478,7 +645,7 @@ body {
     line-height: 1.01;
     color: #fff;
 }
-.hero-title span { color: var(--icf-gold); }
+.hero-title span { color: #fef08a; }
 .hero-copy {
     font-size: 1.05rem;
     line-height: 1.75;
@@ -600,6 +767,11 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+.app-footer.app-footer-dark {
+    background: #070f1e !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+}
 .footer-lock {
     display: inline-flex;
     align-items: center;
@@ -650,5 +822,150 @@ body {
 .fade-up-2 { animation: fadeUp .45s .1s ease both; }
 .fade-up-3 { animation: fadeUp .45s .2s ease both; }
 
+/* ─── Pagination ─────────────────────────────────────────────────────── */
+.pagination-wrapper {
+    padding-top: 0.5rem;
+}
+.pagination-wrapper nav,
+nav[role="navigation"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.pagination-wrapper svg,
+nav[role="navigation"] svg {
+    width: 1rem !important;
+    height: 1rem !important;
+    max-width: 1rem !important;
+    max-height: 1rem !important;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+.pagination {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    padding-left: 0;
+}
+.pagination .page-item .page-link {
+    color: var(--icf-navy);
+    background-color: var(--icf-surface);
+    border: 1px solid var(--icf-border);
+    border-radius: 0.375rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+}
+.pagination .page-item .page-link:hover {
+    background-color: rgba(37, 99, 235, 0.08);
+    border-color: var(--icf-blue);
+    color: var(--icf-blue);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--icf-blue);
+    border-color: var(--icf-blue);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.28);
+}
+.pagination .page-item.disabled .page-link {
+    color: #94a3b8;
+    background-color: #f8fafc;
+    border-color: var(--icf-border);
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* ─── Transfer Profile Cards ─────────────────────────────────────────── */
+.profile-card-option {
+    border: 1.5px solid var(--icf-border);
+    background-color: var(--icf-surface);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    user-select: none;
+}
+.profile-card-option:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+.btn-check:checked + .profile-card-option {
+    border-color: var(--icf-blue) !important;
+    background-color: rgba(37, 99, 235, 0.035);
+    box-shadow: 0 0 0 1px var(--icf-blue), 0 4px 16px rgba(37, 99, 235, 0.12);
+}
+.profile-icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+.bg-blue-light { background: rgba(37, 99, 235, 0.12); }
+.bg-emerald-light { background: rgba(16, 185, 129, 0.12); }
+
 /* ─── Dividers ───────────────────────────────────────────────────────── */
 .section-divider { border: none; border-top: 1px solid var(--icf-border); margin: 0; }
+
+/* ─── Customer Section Theme (#C5C6D0) ───────────────────────────────── */
+body.is-customer-area,
+.is-customer-area .app-shell,
+.is-customer-area .app-content,
+.customer-section {
+    background-color: var(--icf-customer-bg, #C5C6D0) !important;
+}
+
+body.is-customer-area {
+    --bs-body-bg: var(--icf-customer-bg, #C5C6D0);
+}
+
+.is-customer-area .page-container {
+    background-color: transparent !important;
+}
+
+/* Ensure text directly on the #77B5FE background remains crisp, readable and dark */
+.is-customer-area .page-container > div > p.text-secondary,
+.is-customer-area .page-container > .d-flex p.text-secondary,
+.is-customer-area .page-header p.text-secondary,
+.is-customer-area .page-subtitle,
+.is-customer-area .page-container > div > div a.text-secondary,
+.is-customer-area .page-container > div > div span.text-secondary {
+    color: #0b1f3a !important;
+    font-weight: 500;
+}
+
+.is-customer-area .border-bottom {
+    border-color: rgba(7, 15, 30, 0.12) !important;
+}
+
+.is-customer-area .app-footer {
+    background: transparent;
+    border-top: 1px solid rgba(7, 15, 30, 0.14);
+    color: #0b1f3a;
+}
+
+.is-customer-area .app-footer .footer-lock {
+    color: #0b1f3a;
+}
+
+/* Gold eyebrow badges over #77B5FE */
+.is-customer-area .eyebrow-gold {
+    background: rgba(255, 255, 255, 0.88);
+    color: #704800;
+    border-color: rgba(112, 72, 0, 0.28);
+    box-shadow: 0 1px 4px rgba(7, 15, 30, 0.08);
+}
+

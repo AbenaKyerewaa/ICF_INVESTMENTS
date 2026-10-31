@@ -22,6 +22,13 @@ class TransferController extends Controller
 
     public function preview(PreviewTransferRequest $request): RedirectResponse
     {
+        $account = $request->user()->accounts()->where('status', 'active')->findOrFail($request->integer('account_id'));
+        if (stripos($account->name, 'savings') !== false || $account->account_reference === 'ICF-SAVINGS-564') {
+            return back()->withInput()->withErrors([
+                'account_id' => 'Outgoing transfers are restricted on this Savings Account. Please select your Checkings Account to initiate transfers.',
+            ]);
+        }
+
         $data = [...$request->safe()->only(['account_id', 'beneficiary_id', 'amount', 'reference']), 'idempotency_key' => (string) Str::uuid()];
         $request->session()->put('transfer.preview', $data);
 
@@ -56,7 +63,6 @@ class TransferController extends Controller
                     'account_id' => $data['account_id'] ?? null,
                     'amount' => $data['amount'] ?? null,
                     'reason' => $exception->getMessage(),
-                    'demo' => true,
                 ],
             ]);
 
@@ -68,7 +74,6 @@ class TransferController extends Controller
                 'metadata' => [
                     'amount' => $data['amount'] ?? null,
                     'reason' => $exception->getMessage(),
-                    'demo' => true,
                 ],
                 'ip_address' => $request->ip(),
                 'occurred_at' => now(),

@@ -21,7 +21,7 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $this->actingAs($customer)
@@ -34,15 +34,15 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $countBefore = $customer->beneficiaries()->count();
 
         $this->actingAs($customer)
             ->post(route('beneficiaries.store'), [
-                'display_name' => 'Demo Payee Ltd',
-                'account_identifier' => 'DEMO-ACCT-9900',
+                'display_name' => 'Apex Payee Ltd',
+                'account_identifier' => 'ACCT-9900',
                 'institution_name' => 'Fictional Bank PLC',
             ])
             ->assertRedirect();
@@ -51,7 +51,7 @@ class BeneficiaryManagementTest extends TestCase
 
         $this->assertDatabaseHas('beneficiaries', [
             'user_id' => $customer->id,
-            'display_name' => 'Demo Payee Ltd',
+            'display_name' => 'Apex Payee Ltd',
             'status' => 'active',
         ]);
 
@@ -68,7 +68,7 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
         $beneficiary = $customer->beneficiaries()->firstOrFail();
 
@@ -89,7 +89,7 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
         $beneficiary = $customer->beneficiaries()->firstOrFail();
 
@@ -113,7 +113,7 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
 
         $this->actingAs($customer)
@@ -130,7 +130,7 @@ class BeneficiaryManagementTest extends TestCase
         $this->seed();
 
         $customer = User::query()
-            ->where('email', 'maya.bennett@icf-investment.demo')
+            ->where('email', 'maya.bennett@icf.test')
             ->firstOrFail();
         $beneficiary = $customer->beneficiaries()->firstOrFail();
 
@@ -164,5 +164,65 @@ class BeneficiaryManagementTest extends TestCase
         ]);
 
         $this->assertSame('inactive', $beneficiary->status);
+    }
+
+    public function test_customer_can_register_beneficiary_with_first_and_last_name_and_routing_number(): void
+    {
+        $this->seed();
+
+        $customer = User::query()
+            ->where('email', 'maya.bennett@icf.test')
+            ->firstOrFail();
+
+        $this->actingAs($customer)
+            ->post(route('beneficiaries.store'), [
+                'first_name' => 'Alexander',
+                'last_name' => 'Wright',
+                'account_identifier' => '9876543210',
+                'routing_number' => '021000021',
+                'institution_name' => 'JPMorgan Chase Bank',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('beneficiaries', [
+            'user_id' => $customer->id,
+            'display_name' => 'Alexander Wright',
+            'account_identifier' => '9876543210',
+            'institution_name' => 'JPMorgan Chase Bank',
+            'status' => 'active',
+        ]);
+    }
+
+    public function test_customer_can_register_beneficiary_with_separated_bank_address_fields(): void
+    {
+        $this->seed();
+
+        $customer = User::query()
+            ->where('email', 'maya.bennett@icf.test')
+            ->firstOrFail();
+
+        $this->actingAs($customer)
+            ->post(route('beneficiaries.store'), [
+                'first_name' => 'Sophia',
+                'last_name' => 'Mercer',
+                'account_identifier' => '5544332211',
+                'routing_number' => '111000025',
+                'institution_name' => 'Bank of America',
+                'bank_street' => '100 North Tryon St',
+                'bank_city' => 'Charlotte',
+                'bank_state' => 'NC',
+                'bank_postal_code' => '28255',
+                'bank_country' => 'United States',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('beneficiaries', [
+            'user_id' => $customer->id,
+            'display_name' => 'Sophia Mercer',
+            'account_identifier' => '5544332211',
+            'institution_name' => 'Bank of America',
+            'bank_address' => '100 North Tryon St, Charlotte, NC, 28255, United States',
+            'status' => 'active',
+        ]);
     }
 }
