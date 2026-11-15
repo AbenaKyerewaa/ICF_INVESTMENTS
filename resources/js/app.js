@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     label += ': ';
                                 }
                                 if (context.parsed.y !== null) {
-                                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                    label += new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(context.parsed.y);
                                 }
                                 return label;
                             }
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + Number(value).toLocaleString();
+                                return '£' + Number(value).toLocaleString();
                             }
                         },
                         grid: {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + Number(value).toLocaleString();
+                                return '£' + Number(value).toLocaleString();
                             }
                         },
                         grid: {

@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $currency = $transfer->sendingAccount?->currency ?? $transfer->currency ?? 'USD';
+    $currencySymbol = match(strtoupper($currency)) {
+        'GBP' => '£',
+        'EUR' => '€',
+        'JPY' => '¥',
+        'CHF' => 'CHF ',
+        default => '$',
+    };
+@endphp
 <div style="min-height: calc(100vh - var(--topbar-h)); background: linear-gradient(180deg, rgba(7, 15, 30, 0.35) 0%, rgba(7, 15, 30, 0.52) 100%), url('/images/details.jpg') center / cover no-repeat fixed;">
 <div class="page-container">
     {{-- Header --}}
@@ -60,7 +70,7 @@
                 <div class="p-4 rounded-3 border mb-4" style="background: rgba(248, 250, 255, 0.9); border-color: rgba(22, 163, 74, 0.2) !important;">
                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center pb-3 border-bottom mb-3 gap-2">
                         <span class="text-secondary small text-uppercase fw-semibold tracking-wider">Settled Amount</span>
-                        <span class="fs-3 fw-bold text-success">${{ number_format($transfer->amount, 2) }} <span class="fs-6 fw-normal text-secondary">{{ $transfer->currency }}</span></span>
+                        <span class="fs-3 fw-bold text-success">{{ $currencySymbol }}{{ number_format($transfer->amount, 2) }} <span class="fs-6 fw-normal text-secondary">{{ $currency }}</span></span>
                     </div>
 
                     <dl class="row mb-0 gy-3">

@@ -74,6 +74,18 @@ class User extends Authenticatable
     public function avatarUrl(): ?string
     {
         if ($this->isCustomer()) {
+            if (file_exists(public_path('images/Jennifer.jpg'))) {
+                return asset('images/Jennifer.jpg');
+            }
+
+            if (file_exists(public_path('images/jenny.jpg'))) {
+                return asset('images/jenny.jpg');
+            }
+
+            if (file_exists(public_path('images/customer.jpg'))) {
+                return asset('images/customer.jpg');
+            }
+
             return asset('images/Jennifer.jpg');
         }
 

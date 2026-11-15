@@ -33,7 +33,7 @@ class AuthenticationTest extends TestCase
             ->assertSee('Security Access Key');
 
         // Step 3: Submit valid constant OTP -> authenticated and redirected to dashboard
-        $this->post(route('login.otp.verify'), ['otp' => (string) config('auth.login_otp', '847291')])
+        $this->post(route('login.otp.verify'), ['otp' => (string) config('auth.login_otp', '889201')])
             ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticatedAs($user);
@@ -105,7 +105,7 @@ class AuthenticationTest extends TestCase
     public function test_an_authenticated_user_can_update_their_profile_and_password(): void
     {
         $user = User::factory()->create();
-        $otp = (string) config('auth.login_otp', '847291');
+        $otp = (string) config('auth.login_otp', '889201');
 
         $this->actingAs($user)
             ->patch(route('profile.update'), [

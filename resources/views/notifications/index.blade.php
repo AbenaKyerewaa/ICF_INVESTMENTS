@@ -58,7 +58,11 @@
                                 <span class="badge bg-primary ms-2" style="font-size: .65rem;">New</span>
                             @endif
                         </h2>
-                        <span class="small text-secondary">{{ $notification->created_at->diffForHumans() }}</span>
+                        <div class="text-sm-end flex-shrink-0">
+                            <span class="small text-secondary fw-medium">{{ $notification->created_at->format('M j, Y') }}</span>
+                            <span class="small font-monospace fw-semibold text-dark ms-1">{{ $notification->created_at->format('h:i:s A') }}</span>
+                            <div class="text-muted" style="font-size: 0.72rem;">{{ $notification->created_at->diffForHumans() }}</div>
+                        </div>
                     </div>
                     <p class="text-secondary small mb-2">{{ $notification->message }}</p>
                     @if(!empty($notification->data))

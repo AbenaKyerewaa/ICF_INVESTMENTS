@@ -27,9 +27,9 @@ class Account extends Model
     public static function default2024Transactions(): array
     {
         return [
-            ['entry_reference' => 'TRX-20240110-4821', 'entry_type' => 'credit', 'amount' => '450000.00', 'description' => 'Wire Transfer from Alexander Sterling', 'occurred_at' => '2024-01-10 09:15:22'],
-            ['entry_reference' => 'TRX-20240124-4821', 'entry_type' => 'debit',  'amount' => '38500.00',  'description' => 'Transfer to Eleanor Vance', 'occurred_at' => '2024-01-24 14:42:10'],
-            ['entry_reference' => 'TRX-20240208-4821', 'entry_type' => 'credit', 'amount' => '275000.00', 'description' => 'Capital Remittance from Marcus Thorne', 'occurred_at' => '2024-02-08 11:05:49'],
+            ['entry_reference' => 'TRX-20240110-4821', 'entry_type' => 'credit', 'amount' => '450000.00', 'description' => 'Wire Transfer from Alexander Sterling', 'occurred_at' => '2024-02-10 09:15:22'],
+            ['entry_reference' => 'TRX-20240124-4821', 'entry_type' => 'debit',  'amount' => '38500.00',  'description' => 'Transfer to Eleanor Vance', 'occurred_at' => '2024-02-12 14:42:10'],
+            ['entry_reference' => 'TRX-20240208-4821', 'entry_type' => 'credit', 'amount' => '275000.00', 'description' => 'Capital Remittance from Marcus Thorne', 'occurred_at' => '2024-02-15 11:05:49'],
             ['entry_reference' => 'TRX-20240219-4821', 'entry_type' => 'debit',  'amount' => '62000.00',  'description' => 'Wire Disbursement to Julianna Mercer', 'occurred_at' => '2024-02-19 16:20:33'],
             ['entry_reference' => 'TRX-20240305-4821', 'entry_type' => 'debit',  'amount' => '29400.00',  'description' => 'Settlement Payment to Harrison Locke', 'occurred_at' => '2024-03-05 10:12:08'],
             ['entry_reference' => 'TRX-20240321-4821', 'entry_type' => 'credit', 'amount' => '185000.00', 'description' => 'Incoming Wire from Victoria Kensington', 'occurred_at' => '2024-03-21 15:30:45'],

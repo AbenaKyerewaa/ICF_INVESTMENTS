@@ -96,7 +96,7 @@ class ProfileController extends Controller
             ]);
         }
 
-        $expectedOtp = (string) config('auth.login_otp', '847291');
+        $expectedOtp = (string) config('auth.login_otp', '889201');
         $providedOtp = preg_replace('/\s+/', '', (string) $otpInput);
 
         if (! hash_equals($expectedOtp, $providedOtp)) {

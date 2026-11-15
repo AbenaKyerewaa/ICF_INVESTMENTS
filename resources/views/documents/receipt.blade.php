@@ -1,3 +1,13 @@
+@php
+    $currency = $transfer->sendingAccount?->currency ?? $transfer->currency ?? 'USD';
+    $currencySymbol = match(strtoupper($currency)) {
+        'GBP' => '£',
+        'EUR' => '€',
+        'JPY' => '¥',
+        'CHF' => 'CHF ',
+        default => '$',
+    };
+@endphp
 <!doctype html>
 <html>
 <head>
@@ -28,7 +38,7 @@
         </tr>
         <tr>
             <th>Transfer Amount</th>
-            <td class="amount">${{ number_format($transfer->amount, 2) }} {{ $transfer->currency }}</td>
+            <td class="amount">{{ $currencySymbol }}{{ number_format($transfer->amount, 2) }} {{ $currency }}</td>
         </tr>
         <tr>
             <th>Recipient Beneficiary</th>

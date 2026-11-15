@@ -52,12 +52,11 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 align-items-start">
         {{-- Register Beneficiary Form (Expanded Column) --}}
-        <div class="col-lg-6">
-            <div class="surface-card p-4 p-md-5 h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+        <div class="col-lg-6 align-self-start">
+            <div class="surface-card p-4 p-md-5">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
                         <div class="d-flex align-items-center gap-2">
                             <div class="feature-icon" style="width: 2.6rem; height: 2.6rem; background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.18);">
                                 <svg width="18" height="18" fill="none" stroke="var(--icf-blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
@@ -187,7 +186,6 @@
                     </form>
                 </div>
             </div>
-        </div>
 
         {{-- Beneficiary Directory (Right Column) --}}
         <div class="col-lg-6">

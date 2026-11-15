@@ -25,13 +25,13 @@ class DashboardController extends Controller
             ->where('status', 'active')
             ->where('account_reference', '!=', 'ICF-CLEARING')
             ->pluck('balance')
-            ->reduce(fn (string $total, string $bal): string => bcadd($total, $bal, 2), '0.00');
+            ->reduce(fn(string $total, string $bal): string => bcadd($total, $bal, 2), '0.00');
 
         $totalTransfers = Transfer::query()->count();
         $totalTransferredVolume = Transfer::query()
             ->where('status', 'completed')
             ->pluck('amount')
-            ->reduce(fn (string $total, string $amt): string => bcadd($total, $amt, 2), '0.00');
+            ->reduce(fn(string $total, string $amt): string => bcadd($total, $amt, 2), '0.00');
 
         $recentAuditLogs = AuditLog::query()
             ->with('actor')
@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $loginOtp = (string) config('auth.login_otp', '847291');
+        $loginOtp = (string) config('auth.login_otp', '889201');
 
         return view('admin.dashboard', compact(
             'totalUsers',

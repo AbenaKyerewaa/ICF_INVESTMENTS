@@ -128,7 +128,7 @@ class DocumentDownloadTest extends TestCase
             'reference' => 'TRF-ATK-PDF-01',
             'idempotency_key' => 'atk-pdf-idem-01',
             'amount' => '50.00',
-            'currency' => 'USD',
+            'currency' => 'GBP',
             'status' => 'completed',
         ]);
 
