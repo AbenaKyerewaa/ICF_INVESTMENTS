@@ -9,12 +9,7 @@
             <h1 class="h2 fw-bold mt-2 mb-1" style="color: var(--icf-navy);">Client Relations &amp; Institutional Advisory</h1>
             <p class="mb-0 fw-medium" style="color: rgba(255, 255, 255, 0.92); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);">Bespoke relationship management, global treasury execution support, and 24/7 private client assistance.</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <span class="badge-status badge-active px-3 py-2" style="font-size: 0.75rem;">
-                <span style="width: 6px; height: 6px; border-radius: 50%; background: #16a34a; display: inline-block;"></span>
-                Global Advisory Desk Active
-            </span>
-        </div>
+
     </div>
 
     {{-- Contact Channels Grid --}}
