@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $account = Account::query()->updateOrCreate(
-            ['account_reference' => 'ICF-4821'],
+            ['account_reference' => 'ICF-482100119'],
             ['user_id' => $customer->id, 'name' => 'Checkings Account', 'currency' => 'USD', 'balance' => '1700000.00', 'status' => 'active', 'opened_at' => '2024-01-01 09:00:00'],
         );
 

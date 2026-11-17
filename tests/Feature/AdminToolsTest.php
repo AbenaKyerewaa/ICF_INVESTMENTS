@@ -110,7 +110,7 @@ class Phase14AdminToolsTest extends TestCase
             ->firstOrFail();
 
         $account = Account::query()
-            ->where('account_reference', 'ICF-4821')
+            ->where('account_reference', 'ICF-482100119')
             ->firstOrFail();
 
         $this->actingAs($admin)

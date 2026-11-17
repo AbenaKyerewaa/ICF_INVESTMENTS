@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request, AccountAnalyticsService $analyticsService): View
     {
-        $checkingsAccount = $request->user()->accounts()->where('account_reference', 'ICF-4821')->first()
+        $checkingsAccount = $request->user()->accounts()->where('account_reference', 'ICF-482100119')->first()
             ?? $request->user()->accounts()->where('status', 'active')->first();
         $checkingsAccount?->sync2024Ledger();
 

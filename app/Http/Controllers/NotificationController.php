@@ -58,7 +58,7 @@ class NotificationController extends Controller
                 'type' => 'account.alert',
                 'title' => 'Monthly Account Statement Available',
                 'message' => 'Your official account statement for your Checkings Account is ready for download in PDF format.',
-                'data' => ['document_type' => 'Institutional PDF Statement', 'account' => 'ICF-4821', 'status' => 'Certified'],
+                'data' => ['document_type' => 'Institutional PDF Statement', 'account' => 'ICF-482100119', 'status' => 'Certified'],
                 'created_at' => '2024-02-29 09:30:00',
                 'read_at' => '2024-02-29 10:15:00',
             ],

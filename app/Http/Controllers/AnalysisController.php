@@ -10,7 +10,7 @@ class AnalysisController extends Controller
 {
     public function __invoke(Request $request, AccountAnalyticsService $analyticsService): View
     {
-        $account = $request->user()->accounts()->where('account_reference', 'ICF-4821')->first()
+        $account = $request->user()->accounts()->where('account_reference', 'ICF-482100119')->first()
             ?? $request->user()->accounts()->where('status', 'active')->first();
         $account?->sync2024Ledger();
 

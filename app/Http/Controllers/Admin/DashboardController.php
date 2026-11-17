@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function __invoke(): View
     {
-        Account::query()->where('account_reference', 'ICF-4821')->first()?->sync2024Ledger();
+        Account::query()->where('account_reference', 'ICF-482100119')->first()?->sync2024Ledger();
 
         $totalUsers = User::query()->count();
         $activeUsers = User::query()->where('status', 'active')->count();
@@ -25,13 +25,13 @@ class DashboardController extends Controller
             ->where('status', 'active')
             ->where('account_reference', '!=', 'ICF-CLEARING')
             ->pluck('balance')
-            ->reduce(fn(string $total, string $bal): string => bcadd($total, $bal, 2), '0.00');
+            ->reduce(fn (string $total, string $bal): string => bcadd($total, $bal, 2), '0.00');
 
         $totalTransfers = Transfer::query()->count();
         $totalTransferredVolume = Transfer::query()
             ->where('status', 'completed')
             ->pluck('amount')
-            ->reduce(fn(string $total, string $amt): string => bcadd($total, $amt, 2), '0.00');
+            ->reduce(fn (string $total, string $amt): string => bcadd($total, $amt, 2), '0.00');
 
         $recentAuditLogs = AuditLog::query()
             ->with('actor')

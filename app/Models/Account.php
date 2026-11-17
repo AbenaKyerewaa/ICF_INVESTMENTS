@@ -84,7 +84,7 @@ class Account extends Model
 
     public function sync2024Ledger(): void
     {
-        if ($this->account_reference !== 'ICF-4821') {
+        if ($this->account_reference !== 'ICF-482100119') {
             return;
         }
 
