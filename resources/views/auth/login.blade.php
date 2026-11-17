@@ -381,11 +381,27 @@
         .icf-af-right .bs { color: rgba(255,255,255,.18); }
 
         /* ── Responsive ──────────────────────────────────────────── */
-        @media (max-width: 800px) {
+        @media (max-width: 1100px) {
+            .icf-auth-body { grid-template-columns: minmax(0, 1.2fr) minmax(360px, 1fr); }
+        }
+        @media (max-width: 860px) {
             .icf-auth-body { grid-template-columns: 1fr; }
             .icf-auth-hero { display: none; }
-            .icf-auth-panel { padding: 1.5rem 1rem; min-height: calc(100vh - 118px); }
+            .icf-auth-panel { padding: 2rem 1.25rem; min-height: calc(100vh - 130px); }
             .icf-auth-topbar-tagline { display: none; }
+        }
+        @media (max-width: 575.98px) {
+            .icf-auth-topbar { padding: 0 1rem; height: 64px; }
+            .icf-auth-topbar-brand { gap: 0.65rem !important; }
+            .icf-auth-topbar-brand .icf-brand-emblem-svg { width: 60px; height: 30px; }
+            .icf-auth-topbar-brand .icf-brand-divider { height: 1.6rem !important; }
+            .icf-auth-topbar-brand .icf-brand-title { font-size: 0.82rem !important; }
+            .icf-auth-topbar-brand .icf-brand-sub { display: none !important; }
+            .icf-auth-panel { padding: 1.5rem 0.85rem; }
+            .icf-auth-card { padding: 1.75rem 1.15rem; width: 100%; border-radius: 0.875rem; }
+            .icf-auth-footer { height: auto; padding: 0.85rem 1rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+            .icf-af-left, .icf-af-right { justify-content: center; flex-wrap: wrap; gap: 0.65rem; }
+            .icf-af-sep { display: none; }
         }
     </style>
 </head>
@@ -396,18 +412,18 @@
     <header class="icf-auth-topbar">
         <a class="icf-auth-topbar-brand" href="{{ route('landing') }}" style="display: inline-flex; align-items: center; gap: 1.15rem; text-decoration: none;">
             <span style="position: relative; display: inline-block; line-height: 1;">
-                <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="icf-brand-emblem-svg">
                     <text x="6" y="37" fill="#ffffff" font-family="'Times New Roman', 'Playfair Display', 'Cinzel', Georgia, serif" font-size="38" font-weight="600" letter-spacing="1">ICF</text>
                     <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e" stroke="#071f3b" stroke-width="1.6" stroke-linejoin="round"/>
                     <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e"/>
                 </svg>
             </span>
-            <span style="width: 1px; height: 2.35rem; background: rgba(255, 255, 255, 0.5); display: inline-block; flex-shrink: 0;"></span>
+            <span class="icf-brand-divider" style="width: 1px; height: 2.35rem; background: rgba(255, 255, 255, 0.5); display: inline-block; flex-shrink: 0;"></span>
             <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-family: 'Cinzel', 'Playfair Display', 'Times New Roman', Georgia, serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.06em; color: #ffffff; line-height: 1.15; text-transform: uppercase;">
+                <div class="icf-brand-title" style="font-family: 'Cinzel', 'Playfair Display', 'Times New Roman', Georgia, serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.06em; color: #ffffff; line-height: 1.15; text-transform: uppercase;">
                     ICF INVESTMENT BANK
                 </div>
-                <div style="font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.24em; color: #c8a96e; text-transform: uppercase; margin-top: 0.25rem; line-height: 1;">
+                <div class="icf-brand-sub" style="font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.24em; color: #c8a96e; text-transform: uppercase; margin-top: 0.25rem; line-height: 1;">
                     CAPITAL &nbsp;&middot;&nbsp; TRUST &nbsp;&middot;&nbsp; GROWTH
                 </div>
             </div>

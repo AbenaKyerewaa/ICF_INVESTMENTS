@@ -33,20 +33,20 @@
 
             @if(auth()->check() && !$isPublicArea)
                 {{-- Brand styled matching the reference header image --}}
-                <a class="icf-landing-brand text-decoration-none me-xl-4 me-lg-3 flex-shrink-0" href="{{ route('dashboard') }}" style="display: inline-flex; align-items: center; gap: 1.15rem;">
+                <a class="icf-landing-brand text-decoration-none me-xl-4 me-lg-3 flex-shrink-0" href="{{ route('dashboard') }}">
                     <span class="icf-landing-emblem" style="position: relative; display: inline-block; line-height: 1;">
-                        <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="icf-brand-emblem-svg">
                             <text x="6" y="37" fill="#ffffff" font-family="'Times New Roman', 'Playfair Display', 'Cinzel', Georgia, serif" font-size="38" font-weight="600" letter-spacing="1">ICF</text>
                             <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e" stroke="#071f3b" stroke-width="1.6" stroke-linejoin="round"/>
                             <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e"/>
                         </svg>
                     </span>
-                    <span style="width: 1px; height: 2.35rem; background: rgba(255, 255, 255, 0.5); display: inline-block; flex-shrink: 0;"></span>
-                    <div style="display: flex; flex-direction: column; justify-content: center;">
-                        <div style="font-family: 'Cinzel', 'Playfair Display', 'Times New Roman', Georgia, serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.06em; color: #ffffff; line-height: 1.15; text-transform: uppercase;">
+                    <span class="icf-brand-divider"></span>
+                    <div class="icf-brand-text-col" style="display: flex; flex-direction: column; justify-content: center;">
+                        <div class="icf-brand-title">
                             ICF INVESTMENT BANK
                         </div>
-                        <div style="font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.24em; color: #c8a96e; text-transform: uppercase; margin-top: 0.25rem; line-height: 1;">
+                        <div class="icf-brand-sub">
                             CAPITAL &nbsp;&middot;&nbsp; TRUST &nbsp;&middot;&nbsp; GROWTH
                         </div>
                     </div>
@@ -118,20 +118,20 @@
                     </form>
                 </div>
             @else
-                <a class="icf-landing-brand text-decoration-none" href="{{ route('landing') }}" style="display: inline-flex; align-items: center; gap: 1.15rem;">
+                <a class="icf-landing-brand text-decoration-none" href="{{ route('landing') }}">
                     <span class="icf-landing-emblem" style="position: relative; display: inline-block; line-height: 1;">
-                        <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <svg width="92" height="46" viewBox="0 0 92 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="icf-brand-emblem-svg">
                             <text x="6" y="37" fill="#ffffff" font-family="'Times New Roman', 'Playfair Display', 'Cinzel', Georgia, serif" font-size="38" font-weight="600" letter-spacing="1">ICF</text>
                             <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e" stroke="#071f3b" stroke-width="1.6" stroke-linejoin="round"/>
                             <path d="M2 41 C 22 21, 52 19, 83 22 C 52 22, 26 26, 10 41 Z" fill="#c8a96e"/>
                         </svg>
                     </span>
-                    <span style="width: 1px; height: 2.35rem; background: rgba(255, 255, 255, 0.5); display: inline-block; flex-shrink: 0;"></span>
-                    <div style="display: flex; flex-direction: column; justify-content: center;">
-                        <div style="font-family: 'Cinzel', 'Playfair Display', 'Times New Roman', Georgia, serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.06em; color: #ffffff; line-height: 1.15; text-transform: uppercase;">
+                    <span class="icf-brand-divider"></span>
+                    <div class="icf-brand-text-col" style="display: flex; flex-direction: column; justify-content: center;">
+                        <div class="icf-brand-title">
                             ICF INVESTMENT BANK
                         </div>
-                        <div style="font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.24em; color: #c8a96e; text-transform: uppercase; margin-top: 0.25rem; line-height: 1;">
+                        <div class="icf-brand-sub">
                             CAPITAL &nbsp;&middot;&nbsp; TRUST &nbsp;&middot;&nbsp; GROWTH
                         </div>
                     </div>
@@ -276,6 +276,7 @@
                     </nav>
                 @endif
             </aside>
+            <div class="sidebar-backdrop d-lg-none" data-sidebar-backdrop aria-hidden="true"></div>
 
             {{-- ─── Content ──────────────────────────────────────────────── --}}
             <div class="app-content {{ $isCustomerArea ? 'customer-section' : '' }}">

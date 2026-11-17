@@ -9,9 +9,39 @@ window.Chart = Chart;
 document.addEventListener('DOMContentLoaded', () => {
     const shellToggle = document.querySelector('[data-shell-toggle]');
     const sidebar = document.querySelector('[data-sidebar]');
+    const backdrop = document.querySelector('[data-sidebar-backdrop]');
 
-    shellToggle?.addEventListener('click', () => {
-        sidebar?.classList.toggle('is-open');
+    function toggleSidebar() {
+        const isOpen = sidebar?.classList.toggle('is-open');
+        backdrop?.classList.toggle('is-active', !!isOpen);
+        document.body.classList.toggle('sidebar-open', !!isOpen);
+    }
+
+    function closeSidebar() {
+        sidebar?.classList.remove('is-open');
+        backdrop?.classList.remove('is-active');
+        document.body.classList.remove('sidebar-open');
+    }
+
+    shellToggle?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSidebar();
+    });
+
+    backdrop?.addEventListener('click', closeSidebar);
+
+    sidebar?.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            closeSidebar();
+        }
     });
 
     const chartElement = document.getElementById('accountTrendsChart');

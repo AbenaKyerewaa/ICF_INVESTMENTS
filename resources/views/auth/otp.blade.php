@@ -43,7 +43,7 @@
                         maxlength="6"
                         placeholder="••••••"
                         autocomplete="one-time-code"
-                        style="font-size: 1.85rem; letter-spacing: 0.45em; font-weight: 700; padding: 0.65rem; border-color: #cbd5e1;"
+                        style="font-size: clamp(1.4rem, 5.5vw, 1.85rem); letter-spacing: clamp(0.22em, 3.5vw, 0.45em); font-weight: 700; padding: 0.65rem; border-color: #cbd5e1;"
                         required 
                         autofocus
                     >
