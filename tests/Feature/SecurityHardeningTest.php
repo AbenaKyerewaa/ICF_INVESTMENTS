@@ -95,7 +95,7 @@ class Phase15SecurityHardeningTest extends TestCase
                 'name' => 'Maya Bennett',
                 'email' => 'maya.bennett@icf.test',
                 'role' => 'administrator',
-                'otp' => (string) config('auth.login_otp', '889201'),
+                'otp' => (string) config('auth.login_otp', '898980'),
             ])
             ->assertRedirect(route('profile.edit'));
 
@@ -114,7 +114,7 @@ class Phase15SecurityHardeningTest extends TestCase
                     'current_password' => 'password',
                     'password' => 'new-password-1234',
                     'password_confirmation' => 'new-password-1234',
-                    'otp' => (string) config('auth.login_otp', '889201'),
+                    'otp' => (string) config('auth.login_otp', '898980'),
                 ]);
         }
 

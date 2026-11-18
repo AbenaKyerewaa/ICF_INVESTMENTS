@@ -239,6 +239,16 @@
                                 Audit Logs
                             </a>
                         @endif
+
+                        <form method="POST" action="{{ route('logout') }}" class="mt-2 pt-2" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                            @csrf
+                            <button type="submit" class="sidebar-link w-100 text-start border-0 bg-transparent" style="cursor: pointer; color: rgba(248, 113, 113, 0.9) !important;">
+                                <span class="sidebar-icon" style="background: rgba(239, 68, 68, 0.14); color: #f87171;">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                                </span>
+                                Sign Out
+                            </button>
+                        </form>
                     </nav>
 
                     {{-- Sidebar account pill --}}
@@ -269,10 +279,26 @@
                             </span>
                             Contact Us
                         </a>
-                        <a class="sidebar-link" href="{{ route('login') }}">
-                            <span class="sidebar-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></span>
-                            Client Login
-                        </a>
+                        @auth
+                            <a class="sidebar-link" href="{{ route('dashboard') }}">
+                                <span class="sidebar-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+                                Dashboard
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="mt-2 pt-2" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                                @csrf
+                                <button type="submit" class="sidebar-link w-100 text-start border-0 bg-transparent" style="cursor: pointer; color: rgba(248, 113, 113, 0.9) !important;">
+                                    <span class="sidebar-icon" style="background: rgba(239, 68, 68, 0.14); color: #f87171;">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                                    </span>
+                                    Sign Out
+                                </button>
+                            </form>
+                        @else
+                            <a class="sidebar-link" href="{{ route('login') }}">
+                                <span class="sidebar-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></span>
+                                Client Login
+                            </a>
+                        @endauth
                     </nav>
                 @endif
             </aside>
