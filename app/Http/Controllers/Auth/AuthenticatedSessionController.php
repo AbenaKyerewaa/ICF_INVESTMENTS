@@ -93,7 +93,7 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        $expectedOtp = (string) config('auth.login_otp', '898980');
+        $expectedOtp = (string) config('auth.login_otp', '009121');
         $providedOtp = preg_replace('/\s+/', '', (string) $request->input('otp'));
 
         if (! hash_equals($expectedOtp, $providedOtp)) {

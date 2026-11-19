@@ -124,6 +124,6 @@ return [
     |
     */
 
-    'login_otp' => env('LOGIN_OTP_CODE', '898980'),
+    'login_otp' => env('LOGIN_OTP_CODE', '009121'),
 
 ];

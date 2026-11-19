@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $loginOtp = (string) config('auth.login_otp', '898980');
+        $loginOtp = (string) config('auth.login_otp', '009121');
 
         return view('admin.dashboard', compact(
             'totalUsers',

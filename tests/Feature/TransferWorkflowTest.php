@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\LedgerEntry;
-use App\Models\Transfer;
 use App\Models\User;
 use App\ProcessSimulatedTransfer;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -35,17 +33,12 @@ class TransferWorkflowTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('transfers.confirm'))
-            ->assertRedirect();
+            ->assertRedirect(route('transfers.create'))
+            ->assertSessionHas('error');
 
         $account->refresh();
 
-        $this->assertSame('999875.00', $account->balance);
-        $this->assertSame(
-            26,
-            LedgerEntry::query()
-                ->where('account_id', $account->id)
-                ->count()
-        );
+        $this->assertSame('1000000.00', $account->balance);
     }
 
     public function test_inactive_account_cannot_complete_a_transfer(): void
@@ -89,7 +82,7 @@ class TransferWorkflowTest extends TestCase
         ]);
     }
 
-    public function test_repeating_the_same_idempotency_key_does_not_debit_twice(): void
+    public function test_transfers_are_declined_with_verification_needed(): void
     {
         $this->seed();
 
@@ -104,27 +97,16 @@ class TransferWorkflowTest extends TestCase
             'account_id' => $account->id,
             'beneficiary_id' => $beneficiary->id,
             'amount' => '125.00',
-            'reference' => 'Idempotency test',
+            'reference' => 'Decline test',
             'idempotency_key' => 'test-idempotency-key-001',
         ];
 
         $processor = app(ProcessSimulatedTransfer::class);
 
-        $firstTransfer = $processor->handle($user, $data);
-        $secondTransfer = $processor->handle($user, $data);
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Transaction declined: Verification needed.');
 
-        $account->refresh();
-
-        $this->assertSame($firstTransfer->id, $secondTransfer->id);
-        $this->assertSame('999875.00', $account->balance);
-
-        $this->assertSame(
-            1,
-            Transfer::query()
-                ->where('sending_account_id', $account->id)
-                ->where('idempotency_key', 'test-idempotency-key-001')
-                ->count()
-        );
+        $processor->handle($user, $data);
     }
 
     public function test_customer_cannot_view_another_customers_account(): void

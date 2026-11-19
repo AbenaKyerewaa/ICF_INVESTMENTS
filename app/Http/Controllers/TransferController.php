@@ -54,10 +54,27 @@ class TransferController extends Controller
         } try {
             $transfer = $processor->handle($request->user(), $data);
         } catch (DomainException $exception) {
+            $account = $request->user()->accounts()->find($data['account_id'] ?? null);
+            if ($account && ! empty($data['beneficiary_id'])) {
+                Transfer::query()->create([
+                    'sending_account_id' => $account->id,
+                    'beneficiary_id' => $data['beneficiary_id'],
+                    'reference' => 'TRF-'.Str::upper(Str::random(12)),
+                    'idempotency_key' => $data['idempotency_key'] ?? (string) Str::uuid(),
+                    'amount' => $data['amount'] ?? 0,
+                    'currency' => $account->currency,
+                    'status' => 'declined',
+                    'user_reference' => $data['reference'] ?? null,
+                    'failure_reason' => $exception->getMessage(),
+                    'failed_at' => now(),
+                    'metadata' => ['decline_reason' => 'Verification needed'],
+                ]);
+            }
+
             AccountNotification::query()->create([
                 'user_id' => $request->user()->id,
                 'type' => 'transfer.failed',
-                'title' => 'Transfer Failed',
+                'title' => 'Transaction Declined',
                 'message' => $exception->getMessage(),
                 'data' => [
                     'account_id' => $data['account_id'] ?? null,
@@ -68,7 +85,7 @@ class TransferController extends Controller
 
             AuditLog::query()->create([
                 'actor_user_id' => $request->user()->id,
-                'action' => 'transfer.failed',
+                'action' => 'transfer.declined',
                 'target_type' => 'account',
                 'target_id' => $data['account_id'] ?? null,
                 'metadata' => [
